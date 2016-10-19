@@ -14,9 +14,7 @@ class User extends Authenticatable
      *
      * @var array
      */
-    protected $fillable = [
-        'name', 'email', 'password',
-    ];
+    protected $fillable = [];
 
     /**
      * The attributes that should be hidden for arrays.
@@ -26,4 +24,12 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    /**
+     * Get the grade of the user.
+     */
+    public function grade()
+    {
+        return $this->hasOne('App\Grade');
+    }
 }
