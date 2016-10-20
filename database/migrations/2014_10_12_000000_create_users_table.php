@@ -18,14 +18,12 @@ class CreateUsersTable extends Migration
             $table->string('user_name')->unique();
             $table->string('password');
             $table->integer('user_type');
-            $table->integer('grade_id');
+            $table->integer('grade_id')->nullable();
+            $table->integer('status');
             $table->rememberToken();
             $table->timestamps();
         });
-
-        Schema::table('users', function ($table) {
-            $table->foreign('grade_id')->references('id')->on('grade');
-        });
+        
     }
 
     /**

@@ -32,4 +32,29 @@ class User extends Authenticatable
     {
         return $this->hasOne('App\Grade');
     }
+
+    // User login validation rule
+    public static $userLoginRule = array(
+        'user_name' => 'required',
+        'password' => 'required'
+    );
+
+    // Admin create validation rule
+    public static $createAdminRule = array(
+        'user_name' => 'required',
+        'password' => 'required'
+    );
+
+    // Teacher create validation rule
+    public static $createTeacherRule = array(
+        'user_name' => 'required',
+        'password' => 'required'
+    );
+
+    // Student create validation rule
+    public static $createStudentRule = array(
+        'user_name' => 'required',
+        'password' => 'required',
+        'grade_id' => 'required'
+    );
 }
