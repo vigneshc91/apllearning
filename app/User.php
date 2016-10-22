@@ -26,6 +26,13 @@ class User extends Authenticatable
     ];
 
     /**
+     * The attributes that aren't mass assignable.
+     *
+     * @var array
+     */
+    protected $guarded = ['id'];
+
+    /**
      * Get the grade of the user.
      */
     public function grade()
@@ -39,22 +46,42 @@ class User extends Authenticatable
         'password' => 'required'
     );
 
-    // Admin create validation rule
-    public static $createAdminRule = array(
-        'user_name' => 'required',
-        'password' => 'required'
+    // User change password validation rule
+    public static $userChangePasswordRule = array(
+        'old_password' => 'required',
+        'new_password' => 'required'
     );
 
-    // Teacher create validation rule
-    public static $createTeacherRule = array(
+    // User create validation rule
+    public static $createUserRule = array(
         'user_name' => 'required',
-        'password' => 'required'
+        'user_type' => 'required'
     );
 
-    // Student create validation rule
-    public static $createStudentRule = array(
-        'user_name' => 'required',
-        'password' => 'required',
+    // Reset password validation rule
+    public static $resetPasswordRule = array(
+        'user_id' => 'required'
+    );
+
+    // Delete user validation rule
+    public static $deleteUserRule = array(
+        'user_id' => 'required'
+    );
+
+    // Get user validation rule
+    public static $getUserRule = array(
+        'user_id' => 'required'
+    );
+
+    // Get users list validation rule
+    public static $usersListRule = array(
+        'user_type' => 'required',
+    );
+
+    // Edit student validation rule
+    public static $editStudentRule = array(
+        'user_id' => 'required',
         'grade_id' => 'required'
     );
+    
 }
