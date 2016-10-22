@@ -166,12 +166,15 @@ class AdminManager {
             $start = $input['start'];
             $size = $input['size'];
 
+            $query = array();
+            array_push($query, ['user_type', $userType]);
+
             if($userType == AppConstants::userType['Student'] && !empty($input['grade_id'])){
                 $gradeId = $input['grade_id'];
-                $result = User::where('user_type', $userType)->where('grade_id', $gradeId)->skip($start)->take($size)->get();
-            } else {
-                $result = User::where('user_type', $userType)->skip($start)->take($size)->get();
+                array_push($query, ['grade_id', $gradeId]);
             }
+
+            $result = User::where($query)->skip($start)->take($size)->get();
             
             return $result;
 
