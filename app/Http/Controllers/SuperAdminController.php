@@ -145,4 +145,14 @@ class SuperAdminController extends Controller
             return json_encode($response);
         }
     }
+
+    public function dashboard(){
+        try {
+
+            return view('superAdmin.dashboard');
+            
+        } catch(Exception $e){
+            return $e;
+        }
+    }
 }

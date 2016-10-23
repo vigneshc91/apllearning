@@ -15,6 +15,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+//post request
+
 Route::post('user/login', 'UserController@login');
 
 Route::post('user/logout', 'UserController@logout');
@@ -63,3 +65,6 @@ Route::post('teacher/deleteMaterial', 'TeacherController@deleteMaterial');
 
 Route::post('teacher/getMaterialsList', 'TeacherController@getMaterialsList');
 
+// get request
+
+Route::get('superAdmin/dashboard', 'SuperAdminController@dashboard');

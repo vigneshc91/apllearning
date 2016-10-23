@@ -15,7 +15,12 @@ class UserManager {
             $userName = $input['user_name'];
             $password = $input['password'];
 
-            return Auth::Attempt(['user_name' => $userName, 'password' => $password, 'status' => AppConstants::userStatus['Approved']]);
+            $result = Auth::Attempt(['user_name' => $userName, 'password' => $password, 'status' => AppConstants::userStatus['Approved']]);
+            if($result){
+                return Auth::user()->user_type;
+            } else {
+                return false;
+            }
 
         } catch(Exception $e){
             throw $e;

@@ -35,13 +35,14 @@ class UserController extends Controller
                 return json_encode($response);
             }
 
-            if($this->userManager->login($input)) {
-                $response->status = true;
-                $response->result = SuccessConstants::LOGIN_SUCCESS;
-                return json_encode($response);
-            } else {
+            $result = $this->userManager->login($input);
+            if(!$result) {
                 $response->status = false;
                 $response->result = ErrorConstants::LOGIN_FAILED;
+                return json_encode($response);
+            } else {
+                $response->status = true;
+                $response->result = $result;
                 return json_encode($response);
             }
             
