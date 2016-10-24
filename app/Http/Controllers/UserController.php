@@ -111,4 +111,50 @@ class UserController extends Controller
             return json_encode($response);
         }
     }
+
+    public function getLoggedInUser(){
+        $response = new ServiceResponse(); 
+        try {
+
+            $user = $this->sessionManager->getLoggedInUser();
+            if($user == null){
+                $response->status = false;
+                $response->result = ErrorConstants::USER_NOT_LOGGED_IN;
+                return json_encode($response);
+            } else {
+                $response->status = true;
+                $response->result = $user;
+                return json_encode($response);
+            }
+
+        } catch(Exception $e) {
+            $response->status = false;
+            $response->result = $e;
+            return json_encode($response);
+        }
+    }
+
+    public function userLogout(){
+        $response = new ServiceResponse(); 
+        try {
+            
+            $this->userManager->logout();
+            
+            return redirect('/');
+
+
+        } catch(Exception $e) {
+            $response->status = false;
+            $response->result = $e;
+            return json_encode($response);
+        }
+    }
+
+    public function password() {
+        try {
+            return view('changePassword');
+        } catch(Exception $e) {
+            return $e;
+        }
+    }
 }

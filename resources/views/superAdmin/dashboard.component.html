@@ -1,11 +1,13 @@
 <div class="row">
 	<h2>Admins</h2>
 	<div class="col-md-6">
+		<div *ngIf="adminSuccessMessage" class="alert alert-success" role="alert">{{ message }}</div>
+		<div *ngIf="adminFailureMessage" class="alert alert-danger" role="alert">{{ message }}</div>
 		<table class="table table-hover">
-			<tr *ngFor="let user of users">
+			<tr *ngFor="let user of users; let i = index">
 				<td>{{ user.user_name }}</td>
 				<td><button type="button" class="btn btn-default" (click)="resetPassword(user.id)">Reset Password</button></td>
-				<td><button type="button" class="btn btn-default" (click)="deleteAdmin(user.id)">Delete</button></td>
+				<td><button type="button" class="btn btn-default" (click)="deleteAdmin(i, user.id)">Delete</button></td>
 			</tr>
 		</table>
 	</div>
@@ -13,6 +15,8 @@
 		<div class="panel panel-default">
 			<div class="panel-body">
 				<h2 class="text-center">Create Admin</h2>
+				<div *ngIf="adminCreatedSuccessMessage" class="alert alert-success" role="alert">{{ message }}</div>
+				<div *ngIf="adminCreatedFailureMessage" class="alert alert-danger" role="alert">{{ message }}</div>
 				<form [formGroup]="createAdminForm" (ngSubmit)="createAdmin(createAdminForm.value)">
 					<div class="form-group" [ngClass]="{'has-error':!createAdminForm.controls['user_name'].valid && createAdminForm.controls['user_name'].touched}">
 						<label for="username">User Name</label>

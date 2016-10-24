@@ -15,6 +15,10 @@ var user_service_1 = require('../service/user.service');
 var DashboardComponent = (function () {
     function DashboardComponent(fb, userService) {
         this.userService = userService;
+        this.adminCreatedSuccessMessage = false;
+        this.adminCreatedFailureMessage = false;
+        this.adminSuccessMessage = false;
+        this.adminFailureMessage = false;
         this.users = [];
         this.createAdminForm = fb.group({
             "user_name": [null, forms_1.Validators.required]
@@ -41,6 +45,7 @@ var DashboardComponent = (function () {
         });
     };
     DashboardComponent.prototype.resetPassword = function (userId) {
+        var _this = this;
         var user = {
             user_id: userId
         };
@@ -48,10 +53,18 @@ var DashboardComponent = (function () {
         response = this.userService.resetPassword(user);
         response.subscribe(function (data) {
             if (data.status) {
-                console.log(data.result);
+                _this.adminSuccessMessage = true;
+                _this.message = data.result;
+                setTimeout(function () {
+                    this.adminSuccessMessage = false;
+                }.bind(_this), 3000);
             }
             else {
-                console.log(data.result);
+                _this.adminFailureMessage = true;
+                _this.message = data.result;
+                setTimeout(function () {
+                    this.adminFailureMessage = false;
+                }.bind(_this), 3000);
             }
         }, function (err) {
             console.log(err);
@@ -66,18 +79,27 @@ var DashboardComponent = (function () {
             response.subscribe(function (data) {
                 if (data.status) {
                     _this.createAdminForm.reset();
+                    _this.adminCreatedSuccessMessage = true;
+                    _this.message = data.result;
+                    setTimeout(function () {
+                        this.adminCreatedSuccessMessage = false;
+                    }.bind(_this), 3000);
                     _this.users = [];
                     _this.getUsers();
                 }
                 else {
-                    console.log(data.result);
+                    _this.adminCreatedFailureMessage = true;
+                    _this.message = data.result;
+                    setTimeout(function () {
+                        this.adminCreatedFailureMessage = false;
+                    }.bind(_this), 3000);
                 }
             }, function (err) {
                 console.log(err);
             });
         }
     };
-    DashboardComponent.prototype.deleteAdmin = function (userId) {
+    DashboardComponent.prototype.deleteAdmin = function (index, userId) {
         var _this = this;
         var user = {
             user_id: userId
@@ -86,11 +108,19 @@ var DashboardComponent = (function () {
         response = this.userService.deleteUser(user);
         response.subscribe(function (data) {
             if (data.status) {
-                _this.users = [];
-                _this.getUsers();
+                _this.users.splice(index, 1);
+                _this.adminSuccessMessage = true;
+                _this.message = data.result;
+                setTimeout(function () {
+                    this.adminSuccessMessage = false;
+                }.bind(_this), 3000);
             }
             else {
-                console.log(data.result);
+                _this.adminFailureMessage = true;
+                _this.message = data.result;
+                setTimeout(function () {
+                    this.adminFailureMessage = false;
+                }.bind(_this), 3000);
             }
         }, function (err) {
             console.log(err);

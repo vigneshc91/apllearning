@@ -17,6 +17,11 @@ export class DashboardComponent implements OnInit {
 
     createAdminForm:FormGroup;
     users:UserModel[];
+    adminCreatedSuccessMessage:boolean = false;
+    adminCreatedFailureMessage:boolean = false;
+    adminSuccessMessage:boolean = false;
+    adminFailureMessage:boolean = false;
+    message:string;
 
     constructor(fb: FormBuilder, private userService: UserService){
         this.users = [];
@@ -60,9 +65,17 @@ export class DashboardComponent implements OnInit {
         response.subscribe(
             data => {
                 if(data.status){
-                    console.log(data.result);
+                    this.adminSuccessMessage = true;
+                    this.message = data.result;
+                    setTimeout(function() {
+                        this.adminSuccessMessage = false;
+                    }.bind(this), 3000);
                 } else {
-                    console.log(data.result);
+                    this.adminFailureMessage = true;
+                    this.message = data.result;
+                    setTimeout(function() {
+                        this.adminFailureMessage = false;
+                    }.bind(this), 3000);
                 }
             },
             err => {
@@ -80,10 +93,19 @@ export class DashboardComponent implements OnInit {
                 data => {
                     if(data.status){
                         this.createAdminForm.reset();
+                        this.adminCreatedSuccessMessage = true;
+                        this.message = data.result;
+                        setTimeout(function() {
+                            this.adminCreatedSuccessMessage = false;
+                        }.bind(this), 3000);
                         this.users = [];
                         this.getUsers();
                     } else {
-                        console.log(data.result);
+                        this.adminCreatedFailureMessage = true;
+                        this.message = data.result;
+                        setTimeout(function() {
+                            this.adminCreatedFailureMessage = false;
+                        }.bind(this), 3000);
                     }
                 },
                 err => {
@@ -93,7 +115,7 @@ export class DashboardComponent implements OnInit {
         }
     }
 
-    deleteAdmin(userId:number){
+    deleteAdmin(index:number, userId:number){
         let user: UserModel = {
             user_id: userId
         };
@@ -103,10 +125,18 @@ export class DashboardComponent implements OnInit {
         response.subscribe(
             data => {
                 if(data.status){
-                    this.users = [];
-                    this.getUsers();
+                    this.users.splice(index,1);
+                    this.adminSuccessMessage = true;
+                    this.message = data.result;
+                    setTimeout(function() {
+                        this.adminSuccessMessage = false;
+                    }.bind(this), 3000);
                 } else {
-                    console.log(data.result);
+                    this.adminFailureMessage = true;
+                    this.message = data.result;
+                    setTimeout(function() {
+                        this.adminFailureMessage = false;
+                    }.bind(this), 3000);
                 }
             },
             err => {

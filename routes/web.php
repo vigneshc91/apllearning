@@ -23,6 +23,8 @@ Route::post('user/logout', 'UserController@logout');
 
 Route::post('user/changePassword', 'UserController@changePassword');
 
+Route::post('user/getLoggedInUser', 'UserController@getLoggedInUser');
+
 Route::post('superAdmin/createUser', 'SuperAdminController@createUser');
 
 Route::post('superAdmin/resetPassword', 'SuperAdminController@resetPassword');
@@ -68,3 +70,7 @@ Route::post('teacher/getMaterialsList', 'TeacherController@getMaterialsList');
 // get request
 
 Route::get('superAdmin/dashboard', 'SuperAdminController@dashboard');
+
+Route::get('user/changePassword', 'UserController@password');
+
+Route::get('user/logout', 'UserController@userLogout');

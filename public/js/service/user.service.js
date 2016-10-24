@@ -19,6 +19,8 @@ var UserService = (function () {
         this.resetPasswordUrl = app_constants_1.AppConstants.AppUrl + "superAdmin/resetPassword";
         this.createUserUrl = app_constants_1.AppConstants.AppUrl + "superAdmin/createUser";
         this.deleteUserUrl = app_constants_1.AppConstants.AppUrl + "superAdmin/deleteUser";
+        this.changePasswordUrl = app_constants_1.AppConstants.AppUrl + "user/changePassword";
+        this.getLoggedInUserUrl = app_constants_1.AppConstants.AppUrl + "user/getLoggedInUser";
     }
     UserService.prototype.getUsers = function (data) {
         var headers = new http_1.Headers({ 'Content-type': 'application/json' });
@@ -45,6 +47,20 @@ var UserService = (function () {
         var headers = new http_1.Headers({ 'Content-type': 'application/json' });
         var options = new http_1.RequestOptions({ headers: headers });
         return this.http.post(this.deleteUserUrl, data, options)
+            .map(function (res) { return res.json(); })
+            .catch(function (error) { return Rx_1.Observable.throw(error.json().error || "Server error"); });
+    };
+    UserService.prototype.changePassword = function (data) {
+        var headers = new http_1.Headers({ 'Content-type': 'application/json' });
+        var options = new http_1.RequestOptions({ headers: headers });
+        return this.http.post(this.changePasswordUrl, data, options)
+            .map(function (res) { return res.json(); })
+            .catch(function (error) { return Rx_1.Observable.throw(error.json().error || "Server error"); });
+    };
+    UserService.prototype.getLoggedInUser = function () {
+        var headers = new http_1.Headers({ 'Content-type': 'application/json' });
+        var options = new http_1.RequestOptions({ headers: headers });
+        return this.http.post(this.getLoggedInUserUrl, '', options)
             .map(function (res) { return res.json(); })
             .catch(function (error) { return Rx_1.Observable.throw(error.json().error || "Server error"); });
     };

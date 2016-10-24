@@ -16,8 +16,11 @@ var AppComponent = (function () {
         core_1.Component({
             selector: 'apl-learning',
             template: (function () {
-                if (location.pathname.match('superAdmin').length) {
-                    return '<h1>Super Admin</h1><super-admin></super-admin>';
+                if (location.pathname.match('superAdmin') != null) {
+                    return '<nav-header></nav-header><h1>Super Admin</h1><super-admin></super-admin>';
+                }
+                else if (location.pathname.match('changePassword') != null) {
+                    return '<nav-header></nav-header><change-password></change-password>';
                 }
                 else {
                     return '<h1>Welcome</h1><login-section></login-section>';
