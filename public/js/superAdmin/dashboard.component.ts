@@ -22,6 +22,7 @@ export class DashboardComponent implements OnInit {
     adminSuccessMessage:boolean = false;
     adminFailureMessage:boolean = false;
     message:string;
+    hasMoreAdmins:boolean = true;
 
     constructor(fb: FormBuilder, private userService: UserService){
         this.users = [];
@@ -34,10 +35,14 @@ export class DashboardComponent implements OnInit {
         this.getUsers();
     }
 
-    getUsers(){
+    getUsers(load?:boolean){
         let user: UserModel = {
             user_type: AppConstants.USER_TYPE.Admin
         };
+        if(load){
+            user.start = this.users.length;
+            user.size = AppConstants.PAGINATION_SIZE;
+        }
         let response:Observable<ServiceResponse>;
 
         response = this.userService.getUsers(user);
@@ -46,6 +51,9 @@ export class DashboardComponent implements OnInit {
                 if(data.status){
                     if(data.result.length){
                         this.users = this.users.concat(data.result);
+                        if(data.result.length < AppConstants.PAGINATION_SIZE){
+                            this.hasMoreAdmins = false;
+                        }
                     }
                 }
             },

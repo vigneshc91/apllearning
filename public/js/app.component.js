@@ -17,7 +17,7 @@ var AppComponent = (function () {
             selector: 'apl-learning',
             template: (function () {
                 if (location.pathname.match('superAdmin') != null) {
-                    return '<nav-header></nav-header><h1>Super Admin</h1><super-admin></super-admin>';
+                    return '<nav-header></nav-header><super-admin></super-admin>';
                 }
                 else if (location.pathname.match('changePassword') != null) {
                     return '<nav-header></nav-header><change-password></change-password>';

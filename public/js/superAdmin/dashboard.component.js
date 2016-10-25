@@ -19,6 +19,7 @@ var DashboardComponent = (function () {
         this.adminCreatedFailureMessage = false;
         this.adminSuccessMessage = false;
         this.adminFailureMessage = false;
+        this.hasMoreAdmins = true;
         this.users = [];
         this.createAdminForm = fb.group({
             "user_name": [null, forms_1.Validators.required]
@@ -27,17 +28,24 @@ var DashboardComponent = (function () {
     DashboardComponent.prototype.ngOnInit = function () {
         this.getUsers();
     };
-    DashboardComponent.prototype.getUsers = function () {
+    DashboardComponent.prototype.getUsers = function (load) {
         var _this = this;
         var user = {
             user_type: app_constants_1.AppConstants.USER_TYPE.Admin
         };
+        if (load) {
+            user.start = this.users.length;
+            user.size = app_constants_1.AppConstants.PAGINATION_SIZE;
+        }
         var response;
         response = this.userService.getUsers(user);
         response.subscribe(function (data) {
             if (data.status) {
                 if (data.result.length) {
                     _this.users = _this.users.concat(data.result);
+                    if (data.result.length < app_constants_1.AppConstants.PAGINATION_SIZE) {
+                        _this.hasMoreAdmins = false;
+                    }
                 }
             }
         }, function (err) {

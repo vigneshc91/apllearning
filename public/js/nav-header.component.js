@@ -10,6 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var user_service_1 = require('./service/user.service');
+var app_constants_1 = require('./helper/app.constants');
 var NavHeaderComponent = (function () {
     function NavHeaderComponent(userService) {
         this.userService = userService;
@@ -25,6 +26,20 @@ var NavHeaderComponent = (function () {
         response.subscribe(function (data) {
             if (data.status) {
                 _this.loggedInUser = data.result;
+                switch (_this.loggedInUser.user_type) {
+                    case app_constants_1.AppConstants.USER_TYPE.SuperAdmin:
+                        _this.userType = "Super Admin";
+                        break;
+                    case app_constants_1.AppConstants.USER_TYPE.Admin:
+                        _this.userType = "Admin";
+                        break;
+                    case app_constants_1.AppConstants.USER_TYPE.Teacher:
+                        _this.userType = "Teacher";
+                        break;
+                    case app_constants_1.AppConstants.USER_TYPE.Student:
+                        _this.userType = "Student";
+                        break;
+                }
             }
             else {
                 location.href = "/apllearning";

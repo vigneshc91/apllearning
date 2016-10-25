@@ -11,4 +11,6 @@ export class AppConstants {
         "Student": 4
     };
 
+    public static PAGINATION_SIZE = 10;
+
 }

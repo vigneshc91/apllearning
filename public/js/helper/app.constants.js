@@ -15,6 +15,7 @@ var AppConstants = (function () {
         "Teacher": 3,
         "Student": 4
     };
+    AppConstants.PAGINATION_SIZE = 10;
     return AppConstants;
 }());
 exports.AppConstants = AppConstants;

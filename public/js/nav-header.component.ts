@@ -16,6 +16,7 @@ import { DashboardComponent } from './superAdmin/dashboard.component';
 export class NavHeaderComponent implements OnInit {
     
     loggedInUser:UserModel;
+    userType:string;
 
     constructor(private userService: UserService){
         this.loggedInUser = {};
@@ -32,6 +33,20 @@ export class NavHeaderComponent implements OnInit {
             data => {
                 if(data.status){
                     this.loggedInUser = data.result;
+                    switch (this.loggedInUser.user_type) {
+                        case AppConstants.USER_TYPE.SuperAdmin:
+                            this.userType = "Super Admin";
+                            break;
+                        case AppConstants.USER_TYPE.Admin:
+                            this.userType= "Admin";
+                            break;
+                        case AppConstants.USER_TYPE.Teacher:
+                            this.userType = "Teacher";
+                            break;
+                        case AppConstants.USER_TYPE.Student:
+                            this.userType = "Student";
+                            break;
+                    }
                 } else {
                     location.href = "/apllearning";
                 }
