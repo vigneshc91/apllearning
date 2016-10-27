@@ -16,6 +16,8 @@ import { DashboardComponent } from './superAdmin/dashboard.component';
 
 export class LoginComponent {
     loginForm: FormGroup;
+    userLoginFailureMessage:boolean = false;
+    message:string;
 
     constructor(fb: FormBuilder, private loginLogoutService: LoginLogoutService){
         this.loginForm = fb.group({
@@ -46,7 +48,11 @@ export class LoginComponent {
                                 break;
                         }
                     } else {
-                        console.log(data.result);
+                        this.userLoginFailureMessage = true;
+                        this.message = data.result;
+                        setTimeout(function() {
+                            this.userLoginFailureMessage = false;
+                        }.bind(this), 3000);
                     }
                 },
                 err => {

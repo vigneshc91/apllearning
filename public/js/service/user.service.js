@@ -21,6 +21,7 @@ var UserService = (function () {
         this.deleteUserUrl = app_constants_1.AppConstants.AppUrl + "superAdmin/deleteUser";
         this.changePasswordUrl = app_constants_1.AppConstants.AppUrl + "user/changePassword";
         this.getLoggedInUserUrl = app_constants_1.AppConstants.AppUrl + "user/getLoggedInUser";
+        this.editStudentUrl = app_constants_1.AppConstants.AppUrl + "admin/editStudent";
     }
     UserService.prototype.getUsers = function (data) {
         var headers = new http_1.Headers({ 'Content-type': 'application/json' });
@@ -39,7 +40,8 @@ var UserService = (function () {
     UserService.prototype.createUser = function (data) {
         var headers = new http_1.Headers({ 'Content-type': 'application/json' });
         var options = new http_1.RequestOptions({ headers: headers });
-        return this.http.post(this.createUserUrl, data, options)
+        var url = (data.user_id) == null ? this.createUserUrl : this.editStudentUrl;
+        return this.http.post(url, data, options)
             .map(function (res) { return res.json(); })
             .catch(function (error) { return Rx_1.Observable.throw(error.json().error || "Server error"); });
     };

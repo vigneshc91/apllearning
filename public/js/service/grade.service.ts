@@ -12,6 +12,7 @@ export class GradeService {
 
     private getGradesUrl:string = AppConstants.AppUrl + "admin/getGradesList"; 
     private createGradeUrl:string = AppConstants.AppUrl + "admin/createGrade"; 
+    private editGradeUrl:string = AppConstants.AppUrl + "admin/editGrade"; 
     private deleteGradeUrl:string = AppConstants.AppUrl + "admin/deleteGrade";
 
     constructor(private http: Http){
@@ -30,8 +31,9 @@ export class GradeService {
     createGrade(data:GradeModel): Observable<ServiceResponse> {
         let headers = new Headers({ 'Content-type': 'application/json' });
         let options = new RequestOptions({ headers });
-        
-        return this.http.post(this.createGradeUrl, data, options)
+        let url = data.grade_id == null ? this.createGradeUrl : this.editGradeUrl;
+
+        return this.http.post(url, data, options)
                         .map((res:Response) => res.json())
                         .catch((error:any) => Observable.throw(error.json().error || "Server error" ));
     }

@@ -13,19 +13,24 @@ var platform_browser_1 = require('@angular/platform-browser');
 var forms_1 = require('@angular/forms');
 var http_1 = require('@angular/http');
 var ng2_bootstrap_1 = require('ng2-bootstrap/ng2-bootstrap');
+// Common components
 var app_component_1 = require('./app.component');
 var login_component_1 = require('./login.component');
 var nav_header_component_1 = require('./nav-header.component');
 var change_password_component_1 = require('./change-password.component');
+// SuperAdmin components
 var dashboard_component_1 = require('./superAdmin/dashboard.component');
+// Admin components
 var admin_dashboard_component_1 = require('./admin/admin-dashboard.component');
+var student_component_1 = require('./admin/student.component');
+var grade_component_1 = require('./admin/grade.component');
 var AppModule = (function () {
     function AppModule() {
     }
     AppModule = __decorate([
         core_1.NgModule({
             imports: [platform_browser_1.BrowserModule, forms_1.FormsModule, forms_1.ReactiveFormsModule, http_1.HttpModule, ng2_bootstrap_1.ModalModule],
-            declarations: [app_component_1.AppComponent, login_component_1.LoginComponent, nav_header_component_1.NavHeaderComponent, change_password_component_1.ChangePasswordComponent, dashboard_component_1.DashboardComponent, admin_dashboard_component_1.AdminDashboardComponent],
+            declarations: [app_component_1.AppComponent, login_component_1.LoginComponent, nav_header_component_1.NavHeaderComponent, change_password_component_1.ChangePasswordComponent, dashboard_component_1.DashboardComponent, admin_dashboard_component_1.AdminDashboardComponent, grade_component_1.GradeComponent, student_component_1.StudentComponent],
             bootstrap: [app_component_1.AppComponent]
         }), 
         __metadata('design:paramtypes', [])

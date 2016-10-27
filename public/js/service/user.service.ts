@@ -17,6 +17,7 @@ export class UserService {
     private deleteUserUrl = AppConstants.AppUrl + "superAdmin/deleteUser";
     private changePasswordUrl = AppConstants.AppUrl + "user/changePassword";
     private getLoggedInUserUrl = AppConstants.AppUrl + "user/getLoggedInUser";
+    private editStudentUrl = AppConstants.AppUrl + "admin/editStudent";
     
     constructor(private http: Http){
 
@@ -43,8 +44,9 @@ export class UserService {
     createUser(data:UserModel): Observable<ServiceResponse> {
         let headers = new Headers({ 'Content-type': 'application/json' });
         let options = new RequestOptions({ headers });
-        
-        return this.http.post(this.createUserUrl, data, options)
+        let url = (data.user_id) == null ? this.createUserUrl : this.editStudentUrl;
+
+        return this.http.post(url, data, options)
                         .map((res:Response) => res.json())
                         .catch((error:any) => Observable.throw(error.json().error || "Server error" ));
     }

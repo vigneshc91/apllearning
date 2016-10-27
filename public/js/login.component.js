@@ -15,12 +15,14 @@ var app_constants_1 = require('./helper/app.constants');
 var LoginComponent = (function () {
     function LoginComponent(fb, loginLogoutService) {
         this.loginLogoutService = loginLogoutService;
+        this.userLoginFailureMessage = false;
         this.loginForm = fb.group({
             'user_name': [null, forms_1.Validators.required],
             'password': [null, forms_1.Validators.required]
         });
     }
     LoginComponent.prototype.login = function (value) {
+        var _this = this;
         var response;
         if (this.loginForm.valid) {
             response = this.loginLogoutService.login(value);
@@ -42,7 +44,11 @@ var LoginComponent = (function () {
                     }
                 }
                 else {
-                    console.log(data.result);
+                    _this.userLoginFailureMessage = true;
+                    _this.message = data.result;
+                    setTimeout(function () {
+                        this.userLoginFailureMessage = false;
+                    }.bind(_this), 3000);
                 }
             }, function (err) {
                 console.log(err);

@@ -3,6 +3,7 @@
 		<div class="panel panel-default">
 			<div class="panel-body">
                 <h2 class="text-center">Login</h2>
+				<div *ngIf="userLoginFailureMessage" class="alert alert-danger" role="alert">{{ message }}</div>
 				<form [formGroup]="loginForm" (ngSubmit)="login(loginForm.value)">
 					<div class="form-group" [ngClass]="{'has-error':!loginForm.controls['user_name'].valid && loginForm.controls['user_name'].touched}">
 						<label for="username">User Name</label>

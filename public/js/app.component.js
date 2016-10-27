@@ -22,8 +22,14 @@ var AppComponent = (function () {
                 else if (location.pathname.match('changePassword') != null) {
                     return '<nav-header></nav-header><change-password></change-password>';
                 }
-                else if (location.pathname.match('admin') != null) {
+                else if (location.pathname.match('admin/dashboard') != null) {
                     return '<nav-header></nav-header><admin></admin>';
+                }
+                else if (location.pathname.match('admin/student') != null) {
+                    return '<nav-header></nav-header><student></student>';
+                }
+                else if (location.pathname.match('admin/grade') != null) {
+                    return '<nav-header></nav-header><grade></grade>';
                 }
                 else {
                     return '<h1>Welcome</h1><login-section></login-section>';

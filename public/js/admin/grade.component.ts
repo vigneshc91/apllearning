@@ -9,13 +9,14 @@ import { GradeModel } from '../model/grade.model';
 import { GradeService } from '../service/grade.service';
 
 @Component({
-  selector: 'super-admin',
-  templateUrl: '/apllearning/resources/views/admin/grade.component.html'
+  selector: 'grade',
+  templateUrl: '/apllearning/resources/views/admin/grade.component.html',
+  providers: [ GradeService ]
 })
 
-export class DashboardComponent implements OnInit {
+export class GradeComponent implements OnInit {
 
-    createGradeForm:FormGroup;
+    gradeForm:FormGroup;
     grades:GradeModel[];
     gradeCreatedSuccessMessage:boolean = false;
     gradeCreatedFailureMessage:boolean = false;
@@ -25,10 +26,15 @@ export class DashboardComponent implements OnInit {
     hasMoreGrades:boolean;
     @ViewChild('deleteGradeModal') public deleteGradeModal:ModalDirective;
     gradeModal:GradeModel;
+    gradeRange:number[] = AppConstants.GRADE_RANGE;
+    sectionRange:string[] = AppConstants.SECTION_RANGE;
+    selectedGrade:number|string = '';
+    selectedSection:string = '';
+    isEditGrade:boolean = false;
 
     constructor(fb: FormBuilder, private gradeService: GradeService){
         this.grades = [];
-        this.createGradeForm = fb.group({
+        this.gradeForm = fb.group({
             "grade": [null, Validators.required],
             "section": [null, Validators.required]
         });
@@ -69,12 +75,15 @@ export class DashboardComponent implements OnInit {
 
     createGrade(value: GradeModel){
         let response:Observable<ServiceResponse>;
-        if(this.createGradeForm.valid){
+        if(this.gradeForm.valid){
+            if(this.isEditGrade){
+                value.grade_id = this.gradeModal.grade_id;
+            }
             response = this.gradeService.createGrade(value);
             response.subscribe(
                 data => {
                     if(data.status){
-                        this.createGradeForm.reset();
+                        // this.gradeForm.reset();
                         this.gradeCreatedSuccessMessage = true;
                         this.message = data.result;
                         setTimeout(function() {
@@ -88,6 +97,11 @@ export class DashboardComponent implements OnInit {
                         setTimeout(function() {
                             this.gradeCreatedFailureMessage = false;
                         }.bind(this), 3000);
+                    }
+                    if(this.isEditGrade){
+                        this.gradeModal = {};
+                        this.isEditGrade = false;
+                        this.gradeForm.reset();
                     }
                 },
                 err => {
@@ -138,6 +152,23 @@ export class DashboardComponent implements OnInit {
                 console.log(err);
             }
         );
+    }
+
+    cancelEditGrade(){
+        this.gradeModal = {};
+        this.isEditGrade = false;
+        this.gradeForm.reset();
+        this.selectedGrade = '';
+        this.selectedSection = '';
+    }
+
+    editGrade(gradeId:number, grade:number, section:string){
+        this.gradeModal = {
+            grade_id: gradeId
+        };
+        this.isEditGrade = true;
+        this.selectedGrade = grade;
+        this.selectedSection = section;
     }
     
 

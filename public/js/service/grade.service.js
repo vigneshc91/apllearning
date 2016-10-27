@@ -17,6 +17,7 @@ var GradeService = (function () {
         this.http = http;
         this.getGradesUrl = app_constants_1.AppConstants.AppUrl + "admin/getGradesList";
         this.createGradeUrl = app_constants_1.AppConstants.AppUrl + "admin/createGrade";
+        this.editGradeUrl = app_constants_1.AppConstants.AppUrl + "admin/editGrade";
         this.deleteGradeUrl = app_constants_1.AppConstants.AppUrl + "admin/deleteGrade";
     }
     GradeService.prototype.getGrades = function (data) {
@@ -29,7 +30,8 @@ var GradeService = (function () {
     GradeService.prototype.createGrade = function (data) {
         var headers = new http_1.Headers({ 'Content-type': 'application/json' });
         var options = new http_1.RequestOptions({ headers: headers });
-        return this.http.post(this.createGradeUrl, data, options)
+        var url = data.grade_id == null ? this.createGradeUrl : this.editGradeUrl;
+        return this.http.post(url, data, options)
             .map(function (res) { return res.json(); })
             .catch(function (error) { return Rx_1.Observable.throw(error.json().error || "Server error"); });
     };

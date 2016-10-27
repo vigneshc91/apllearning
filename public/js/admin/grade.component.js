@@ -13,23 +13,28 @@ var forms_1 = require('@angular/forms');
 var ng2_bootstrap_1 = require('ng2-bootstrap/ng2-bootstrap');
 var app_constants_1 = require('../helper/app.constants');
 var grade_service_1 = require('../service/grade.service');
-var DashboardComponent = (function () {
-    function DashboardComponent(fb, gradeService) {
+var GradeComponent = (function () {
+    function GradeComponent(fb, gradeService) {
         this.gradeService = gradeService;
         this.gradeCreatedSuccessMessage = false;
         this.gradeCreatedFailureMessage = false;
         this.gradeSuccessMessage = false;
         this.gradeFailureMessage = false;
+        this.gradeRange = app_constants_1.AppConstants.GRADE_RANGE;
+        this.sectionRange = app_constants_1.AppConstants.SECTION_RANGE;
+        this.selectedGrade = '';
+        this.selectedSection = '';
+        this.isEditGrade = false;
         this.grades = [];
-        this.createGradeForm = fb.group({
+        this.gradeForm = fb.group({
             "grade": [null, forms_1.Validators.required],
             "section": [null, forms_1.Validators.required]
         });
     }
-    DashboardComponent.prototype.ngOnInit = function () {
+    GradeComponent.prototype.ngOnInit = function () {
         this.getGrades();
     };
-    DashboardComponent.prototype.getGrades = function (load) {
+    GradeComponent.prototype.getGrades = function (load) {
         var _this = this;
         var grade = {};
         if (load) {
@@ -54,14 +59,17 @@ var DashboardComponent = (function () {
             console.log(err);
         });
     };
-    DashboardComponent.prototype.createGrade = function (value) {
+    GradeComponent.prototype.createGrade = function (value) {
         var _this = this;
         var response;
-        if (this.createGradeForm.valid) {
+        if (this.gradeForm.valid) {
+            if (this.isEditGrade) {
+                value.grade_id = this.gradeModal.grade_id;
+            }
             response = this.gradeService.createGrade(value);
             response.subscribe(function (data) {
                 if (data.status) {
-                    _this.createGradeForm.reset();
+                    // this.gradeForm.reset();
                     _this.gradeCreatedSuccessMessage = true;
                     _this.message = data.result;
                     setTimeout(function () {
@@ -77,23 +85,28 @@ var DashboardComponent = (function () {
                         this.gradeCreatedFailureMessage = false;
                     }.bind(_this), 3000);
                 }
+                if (_this.isEditGrade) {
+                    _this.gradeModal = {};
+                    _this.isEditGrade = false;
+                    _this.gradeForm.reset();
+                }
             }, function (err) {
                 console.log(err);
             });
         }
     };
-    DashboardComponent.prototype.showDeleteConfirm = function (index, gradeId) {
+    GradeComponent.prototype.showDeleteConfirm = function (index, gradeId) {
         this.gradeModal = {
             grade_id: gradeId,
             index: index
         };
         this.deleteGradeModal.show();
     };
-    DashboardComponent.prototype.closeDeleteGradeModal = function () {
+    GradeComponent.prototype.closeDeleteGradeModal = function () {
         this.gradeModal = {};
         this.deleteGradeModal.hide();
     };
-    DashboardComponent.prototype.deleteGrade = function () {
+    GradeComponent.prototype.deleteGrade = function () {
         var _this = this;
         var grade = this.gradeModal;
         var response;
@@ -120,18 +133,34 @@ var DashboardComponent = (function () {
             console.log(err);
         });
     };
+    GradeComponent.prototype.cancelEditGrade = function () {
+        this.gradeModal = {};
+        this.isEditGrade = false;
+        this.gradeForm.reset();
+        this.selectedGrade = '';
+        this.selectedSection = '';
+    };
+    GradeComponent.prototype.editGrade = function (gradeId, grade, section) {
+        this.gradeModal = {
+            grade_id: gradeId
+        };
+        this.isEditGrade = true;
+        this.selectedGrade = grade;
+        this.selectedSection = section;
+    };
     __decorate([
         core_1.ViewChild('deleteGradeModal'), 
         __metadata('design:type', ng2_bootstrap_1.ModalDirective)
-    ], DashboardComponent.prototype, "deleteGradeModal", void 0);
-    DashboardComponent = __decorate([
+    ], GradeComponent.prototype, "deleteGradeModal", void 0);
+    GradeComponent = __decorate([
         core_1.Component({
-            selector: 'super-admin',
-            templateUrl: '/apllearning/resources/views/admin/grade.component.html'
+            selector: 'grade',
+            templateUrl: '/apllearning/resources/views/admin/grade.component.html',
+            providers: [grade_service_1.GradeService]
         }), 
         __metadata('design:paramtypes', [forms_1.FormBuilder, grade_service_1.GradeService])
-    ], DashboardComponent);
-    return DashboardComponent;
+    ], GradeComponent);
+    return GradeComponent;
 }());
-exports.DashboardComponent = DashboardComponent;
+exports.GradeComponent = GradeComponent;
 //# sourceMappingURL=grade.component.js.map
