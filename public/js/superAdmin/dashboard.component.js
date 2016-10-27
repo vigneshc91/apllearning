@@ -10,6 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var forms_1 = require('@angular/forms');
+var ng2_bootstrap_1 = require('ng2-bootstrap/ng2-bootstrap');
 var app_constants_1 = require('../helper/app.constants');
 var user_service_1 = require('../service/user.service');
 var DashboardComponent = (function () {
@@ -52,11 +53,19 @@ var DashboardComponent = (function () {
             console.log(err);
         });
     };
-    DashboardComponent.prototype.resetPassword = function (userId) {
-        var _this = this;
-        var user = {
+    DashboardComponent.prototype.showResetPasswordConfirm = function (userId) {
+        this.userModal = {
             user_id: userId
         };
+        this.resetPasswordModal.show();
+    };
+    DashboardComponent.prototype.closeResetPasswordModal = function () {
+        this.userModal = {};
+        this.resetPasswordModal.hide();
+    };
+    DashboardComponent.prototype.resetPassword = function () {
+        var _this = this;
+        var user = this.userModal;
         var response;
         response = this.userService.resetPassword(user);
         response.subscribe(function (data) {
@@ -74,6 +83,8 @@ var DashboardComponent = (function () {
                     this.adminFailureMessage = false;
                 }.bind(_this), 3000);
             }
+            _this.userModal = {};
+            _this.resetPasswordModal.hide();
         }, function (err) {
             console.log(err);
         });
@@ -107,16 +118,25 @@ var DashboardComponent = (function () {
             });
         }
     };
-    DashboardComponent.prototype.deleteAdmin = function (index, userId) {
-        var _this = this;
-        var user = {
-            user_id: userId
+    DashboardComponent.prototype.showDeleteConfirm = function (index, userId) {
+        this.userModal = {
+            user_id: userId,
+            index: index
         };
+        this.deleteAdminModal.show();
+    };
+    DashboardComponent.prototype.closeDeleteAdminModal = function () {
+        this.userModal = {};
+        this.deleteAdminModal.hide();
+    };
+    DashboardComponent.prototype.deleteAdmin = function () {
+        var _this = this;
+        var user = this.userModal;
         var response;
         response = this.userService.deleteUser(user);
         response.subscribe(function (data) {
             if (data.status) {
-                _this.users.splice(index, 1);
+                _this.users.splice(user.index, 1);
                 _this.adminSuccessMessage = true;
                 _this.message = data.result;
                 setTimeout(function () {
@@ -130,10 +150,20 @@ var DashboardComponent = (function () {
                     this.adminFailureMessage = false;
                 }.bind(_this), 3000);
             }
+            _this.userModal = {};
+            _this.deleteAdminModal.hide();
         }, function (err) {
             console.log(err);
         });
     };
+    __decorate([
+        core_1.ViewChild('deleteAdminModal'), 
+        __metadata('design:type', ng2_bootstrap_1.ModalDirective)
+    ], DashboardComponent.prototype, "deleteAdminModal", void 0);
+    __decorate([
+        core_1.ViewChild('resetPasswordModal'), 
+        __metadata('design:type', ng2_bootstrap_1.ModalDirective)
+    ], DashboardComponent.prototype, "resetPasswordModal", void 0);
     DashboardComponent = __decorate([
         core_1.Component({
             selector: 'super-admin',

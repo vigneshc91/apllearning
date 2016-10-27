@@ -9,5 +9,5 @@ export class UserModel {
     updated_at?: string;
     start?: number;
     size?: number;
-
+    index?: number;
 }

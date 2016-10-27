@@ -12,6 +12,7 @@ var core_1 = require('@angular/core');
 var platform_browser_1 = require('@angular/platform-browser');
 var forms_1 = require('@angular/forms');
 var http_1 = require('@angular/http');
+var ng2_bootstrap_1 = require('ng2-bootstrap/ng2-bootstrap');
 var app_component_1 = require('./app.component');
 var login_component_1 = require('./login.component');
 var nav_header_component_1 = require('./nav-header.component');
@@ -22,7 +23,7 @@ var AppModule = (function () {
     }
     AppModule = __decorate([
         core_1.NgModule({
-            imports: [platform_browser_1.BrowserModule, forms_1.FormsModule, forms_1.ReactiveFormsModule, http_1.HttpModule],
+            imports: [platform_browser_1.BrowserModule, forms_1.FormsModule, forms_1.ReactiveFormsModule, http_1.HttpModule, ng2_bootstrap_1.ModalModule],
             declarations: [app_component_1.AppComponent, login_component_1.LoginComponent, nav_header_component_1.NavHeaderComponent, change_password_component_1.ChangePasswordComponent, dashboard_component_1.DashboardComponent],
             bootstrap: [app_component_1.AppComponent]
         }), 

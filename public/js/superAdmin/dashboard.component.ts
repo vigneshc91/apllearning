@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Observable } from 'rxjs/Rx';
+import { ModalDirective } from 'ng2-bootstrap/ng2-bootstrap';
 
 import { AppConstants } from '../helper/app.constants';
 import { ServiceResponse } from '../model/service-response.model';
@@ -23,6 +24,9 @@ export class DashboardComponent implements OnInit {
     adminFailureMessage:boolean = false;
     message:string;
     hasMoreAdmins:boolean = true;
+    @ViewChild('deleteAdminModal') public deleteAdminModal:ModalDirective;
+    @ViewChild('resetPasswordModal') public resetPasswordModal:ModalDirective;
+    userModal:UserModel;
 
     constructor(fb: FormBuilder, private userService: UserService){
         this.users = [];
@@ -63,10 +67,20 @@ export class DashboardComponent implements OnInit {
         );
     }
 
-    resetPassword(userId:number){
-        let user: UserModel = {
+    showResetPasswordConfirm(userId:number){
+        this.userModal = {
             user_id: userId
         };
+        this.resetPasswordModal.show();
+    }
+
+    closeResetPasswordModal(){
+        this.userModal = {};
+        this.resetPasswordModal.hide();
+    }
+
+    resetPassword(){
+        let user: UserModel = this.userModal;
         let response:Observable<ServiceResponse>;
 
         response = this.userService.resetPassword(user);
@@ -85,6 +99,8 @@ export class DashboardComponent implements OnInit {
                         this.adminFailureMessage = false;
                     }.bind(this), 3000);
                 }
+                this.userModal = {};
+                this.resetPasswordModal.hide();
             },
             err => {
                 console.log(err);
@@ -123,17 +139,28 @@ export class DashboardComponent implements OnInit {
         }
     }
 
-    deleteAdmin(index:number, userId:number){
-        let user: UserModel = {
-            user_id: userId
+    showDeleteConfirm(index:number, userId:number){
+        this.userModal = {
+            user_id: userId,
+            index: index
         };
+        this.deleteAdminModal.show();
+    }
+    
+    closeDeleteAdminModal(){
+        this.userModal = {};
+        this.deleteAdminModal.hide();
+    }
+
+    deleteAdmin(){
+        let user: UserModel = this.userModal;
         let response:Observable<ServiceResponse>;
 
         response = this.userService.deleteUser(user);
         response.subscribe(
             data => {
                 if(data.status){
-                    this.users.splice(index,1);
+                    this.users.splice(user.index,1);
                     this.adminSuccessMessage = true;
                     this.message = data.result;
                     setTimeout(function() {
@@ -146,6 +173,8 @@ export class DashboardComponent implements OnInit {
                         this.adminFailureMessage = false;
                     }.bind(this), 3000);
                 }
+                this.userModal = {};
+                this.deleteAdminModal.hide();
             },
             err => {
                 console.log(err);
