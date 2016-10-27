@@ -74,3 +74,11 @@ Route::get('superAdmin/dashboard', 'SuperAdminController@dashboard');
 Route::get('user/changePassword', 'UserController@password');
 
 Route::get('user/logout', 'UserController@userLogout');
+
+Route::get('admin/dashboard', 'AdminController@dashboard');
+
+Route::get('admin/student', 'AdminController@student');
+
+Route::get('admin/grade', 'AdminController@grade');
+
+Route::get('admin/student', 'AdminController@student');

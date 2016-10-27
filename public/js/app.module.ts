@@ -9,10 +9,11 @@ import { LoginComponent } from './login.component';
 import { NavHeaderComponent } from './nav-header.component';
 import { ChangePasswordComponent } from './change-password.component';
 import { DashboardComponent } from './superAdmin/dashboard.component';
+import { AdminDashboardComponent } from './admin/admin-dashboard.component';
 
 @NgModule({
   imports:      [ BrowserModule, FormsModule, ReactiveFormsModule, HttpModule, ModalModule ],
-  declarations: [ AppComponent, LoginComponent, NavHeaderComponent, ChangePasswordComponent, DashboardComponent ],
+  declarations: [ AppComponent, LoginComponent, NavHeaderComponent, ChangePasswordComponent, DashboardComponent, AdminDashboardComponent ],
   bootstrap:    [ AppComponent ]
 })
 

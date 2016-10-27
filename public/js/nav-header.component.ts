@@ -17,6 +17,7 @@ export class NavHeaderComponent implements OnInit {
     
     loggedInUser:UserModel;
     userType:string;
+    userDashboard:string;
 
     constructor(private userService: UserService){
         this.loggedInUser = {};
@@ -36,9 +37,11 @@ export class NavHeaderComponent implements OnInit {
                     switch (this.loggedInUser.user_type) {
                         case AppConstants.USER_TYPE.SuperAdmin:
                             this.userType = "Super Admin";
+                            this.userDashboard = "/apllearning/superAdmin/dashboard";
                             break;
                         case AppConstants.USER_TYPE.Admin:
                             this.userType= "Admin";
+                            this.userDashboard = "apllearning/admin/dashboard";
                             break;
                         case AppConstants.USER_TYPE.Teacher:
                             this.userType = "Teacher";

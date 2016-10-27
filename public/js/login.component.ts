@@ -36,7 +36,7 @@ export class LoginComponent {
                                 location.href = "superAdmin/dashboard";
                                 break;
                             case AppConstants.USER_TYPE.Admin:
-                                console.log("Admin");
+                                location.href = "admin/dashboard";
                                 break;
                             case AppConstants.USER_TYPE.Teacher:
                                 console.log("Techer");
@@ -45,7 +45,6 @@ export class LoginComponent {
                                 console.log("Student");
                                 break;
                         }
-                        console.log(data.result);
                     } else {
                         console.log(data.result);
                     }

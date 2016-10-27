@@ -31,7 +31,7 @@ var LoginComponent = (function () {
                             location.href = "superAdmin/dashboard";
                             break;
                         case app_constants_1.AppConstants.USER_TYPE.Admin:
-                            console.log("Admin");
+                            location.href = "admin/dashboard";
                             break;
                         case app_constants_1.AppConstants.USER_TYPE.Teacher:
                             console.log("Techer");
@@ -40,7 +40,6 @@ var LoginComponent = (function () {
                             console.log("Student");
                             break;
                     }
-                    console.log(data.result);
                 }
                 else {
                     console.log(data.result);

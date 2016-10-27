@@ -9,28 +9,27 @@ import { UserModel } from '../model/user.model';
 import { UserService } from '../service/user.service';
 
 @Component({
-  selector: 'super-admin',
-  templateUrl: '/apllearning/resources/views/superAdmin/dashboard.component.html',
+  selector: 'admin',
+  templateUrl: '/apllearning/resources/views/admin/dashboard.component.html',
   providers: [ UserService ]
 })
 
-export class DashboardComponent implements OnInit {
-
-    createAdminForm:FormGroup;
+export class AdminDashboardComponent implements OnInit {
+    createTeacherForm:FormGroup;
     users:UserModel[];
-    adminCreatedSuccessMessage:boolean = false;
-    adminCreatedFailureMessage:boolean = false;
-    adminSuccessMessage:boolean = false;
-    adminFailureMessage:boolean = false;
+    teacherCreatedSuccessMessage:boolean = false;
+    teacherCreatedFailureMessage:boolean = false;
+    userSuccessMessage:boolean = false;
+    userFailureMessage:boolean = false;
     message:string;
-    hasMoreAdmins:boolean;
-    @ViewChild('deleteAdminModal') public deleteAdminModal:ModalDirective;
+    hasMoreTeachers:boolean;
+    @ViewChild('deleteTeacherModal') public deleteTeacherModal:ModalDirective;
     @ViewChild('resetPasswordModal') public resetPasswordModal:ModalDirective;
     userModal:UserModel;
 
     constructor(fb: FormBuilder, private userService: UserService){
         this.users = [];
-        this.createAdminForm = fb.group({
+        this.createTeacherForm = fb.group({
             "user_name": [null, Validators.required]
         });
     }
@@ -41,7 +40,7 @@ export class DashboardComponent implements OnInit {
 
     getUsers(load?:boolean){
         let user: UserModel = {
-            user_type: AppConstants.USER_TYPE.Admin
+            user_type: AppConstants.USER_TYPE.Teacher
         };
         if(load){
             user.start = this.users.length;
@@ -56,9 +55,9 @@ export class DashboardComponent implements OnInit {
                     if(data.result.length){
                         this.users = this.users.concat(data.result);
                         if(data.result.length < AppConstants.PAGINATION_SIZE){
-                            this.hasMoreAdmins = false;
+                            this.hasMoreTeachers = false;
                         } else {
-                            this.hasMoreAdmins = true;
+                            this.hasMoreTeachers = true;
                         }
                     }
                 }
@@ -89,16 +88,16 @@ export class DashboardComponent implements OnInit {
         response.subscribe(
             data => {
                 if(data.status){
-                    this.adminSuccessMessage = true;
+                    this.userSuccessMessage = true;
                     this.message = data.result;
                     setTimeout(function() {
-                        this.adminSuccessMessage = false;
+                        this.userSuccessMessage = false;
                     }.bind(this), 3000);
                 } else {
-                    this.adminFailureMessage = true;
+                    this.userFailureMessage = true;
                     this.message = data.result;
                     setTimeout(function() {
-                        this.adminFailureMessage = false;
+                        this.userFailureMessage = false;
                     }.bind(this), 3000);
                 }
                 this.userModal = {};
@@ -110,27 +109,27 @@ export class DashboardComponent implements OnInit {
         );
     }
 
-    createAdmin(value: UserModel){
+    createTeacher(value: UserModel){
         let response:Observable<ServiceResponse>;
-        if(this.createAdminForm.valid){
-            value.user_type = AppConstants.USER_TYPE.Admin;
+        if(this.createTeacherForm.valid){
+            value.user_type = AppConstants.USER_TYPE.Teacher;
             response = this.userService.createUser(value);
             response.subscribe(
                 data => {
                     if(data.status){
-                        this.createAdminForm.reset();
-                        this.adminCreatedSuccessMessage = true;
+                        this.createTeacherForm.reset();
+                        this.teacherCreatedSuccessMessage = true;
                         this.message = data.result;
                         setTimeout(function() {
-                            this.adminCreatedSuccessMessage = false;
+                            this.teacherCreatedSuccessMessage = false;
                         }.bind(this), 3000);
                         this.users = [];
                         this.getUsers();
                     } else {
-                        this.adminCreatedFailureMessage = true;
+                        this.teacherCreatedFailureMessage = true;
                         this.message = data.result;
                         setTimeout(function() {
-                            this.adminCreatedFailureMessage = false;
+                            this.teacherCreatedFailureMessage = false;
                         }.bind(this), 3000);
                     }
                 },
@@ -146,15 +145,15 @@ export class DashboardComponent implements OnInit {
             user_id: userId,
             index: index
         };
-        this.deleteAdminModal.show();
+        this.deleteTeacherModal.show();
     }
     
-    closeDeleteAdminModal(){
+    closeDeleteTeacherModal(){
         this.userModal = {};
-        this.deleteAdminModal.hide();
+        this.deleteTeacherModal.hide();
     }
 
-    deleteAdmin(){
+    deleteTeacher(){
         let user: UserModel = this.userModal;
         let response:Observable<ServiceResponse>;
 
@@ -163,26 +162,24 @@ export class DashboardComponent implements OnInit {
             data => {
                 if(data.status){
                     this.users.splice(user.index,1);
-                    this.adminSuccessMessage = true;
+                    this.userSuccessMessage = true;
                     this.message = data.result;
                     setTimeout(function() {
-                        this.adminSuccessMessage = false;
+                        this.userSuccessMessage = false;
                     }.bind(this), 3000);
                 } else {
-                    this.adminFailureMessage = true;
+                    this.userFailureMessage = true;
                     this.message = data.result;
                     setTimeout(function() {
-                        this.adminFailureMessage = false;
+                        this.userFailureMessage = false;
                     }.bind(this), 3000);
                 }
                 this.userModal = {};
-                this.deleteAdminModal.hide();
+                this.deleteTeacherModal.hide();
             },
             err => {
                 console.log(err);
             }
         );
     }
-    
-
- }
+}

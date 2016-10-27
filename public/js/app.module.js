@@ -18,13 +18,14 @@ var login_component_1 = require('./login.component');
 var nav_header_component_1 = require('./nav-header.component');
 var change_password_component_1 = require('./change-password.component');
 var dashboard_component_1 = require('./superAdmin/dashboard.component');
+var admin_dashboard_component_1 = require('./admin/admin-dashboard.component');
 var AppModule = (function () {
     function AppModule() {
     }
     AppModule = __decorate([
         core_1.NgModule({
             imports: [platform_browser_1.BrowserModule, forms_1.FormsModule, forms_1.ReactiveFormsModule, http_1.HttpModule, ng2_bootstrap_1.ModalModule],
-            declarations: [app_component_1.AppComponent, login_component_1.LoginComponent, nav_header_component_1.NavHeaderComponent, change_password_component_1.ChangePasswordComponent, dashboard_component_1.DashboardComponent],
+            declarations: [app_component_1.AppComponent, login_component_1.LoginComponent, nav_header_component_1.NavHeaderComponent, change_password_component_1.ChangePasswordComponent, dashboard_component_1.DashboardComponent, admin_dashboard_component_1.AdminDashboardComponent],
             bootstrap: [app_component_1.AppComponent]
         }), 
         __metadata('design:paramtypes', [])

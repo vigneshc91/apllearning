@@ -29,9 +29,11 @@ var NavHeaderComponent = (function () {
                 switch (_this.loggedInUser.user_type) {
                     case app_constants_1.AppConstants.USER_TYPE.SuperAdmin:
                         _this.userType = "Super Admin";
+                        _this.userDashboard = "/apllearning/superAdmin/dashboard";
                         break;
                     case app_constants_1.AppConstants.USER_TYPE.Admin:
                         _this.userType = "Admin";
+                        _this.userDashboard = "apllearning/admin/dashboard";
                         break;
                     case app_constants_1.AppConstants.USER_TYPE.Teacher:
                         _this.userType = "Teacher";

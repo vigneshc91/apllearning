@@ -571,7 +571,45 @@ class AdminController extends Controller
         }
     }
 
+    public function dashboard(){
+        try {
 
+            return view('admin.dashboard');
+
+        } catch(Exception $e){
+            return $e;
+        }
+    }
+
+    public function student(){
+        try {
+
+            return view('admin.student');
+
+        } catch(Exception $e){
+            return $e;
+        }
+    }
+
+    public function grade(){
+        try {
+
+            return view('admin.grade');
+
+        } catch(Exception $e){
+            return $e;
+        }
+    }
+
+    public function subject(){
+        try {
+
+            return view('admin.subject');
+
+        } catch(Exception $e){
+            return $e;
+        }
+    }
 
 
 }
