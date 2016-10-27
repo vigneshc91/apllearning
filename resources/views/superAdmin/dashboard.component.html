@@ -28,8 +28,10 @@
 				<form [formGroup]="createAdminForm" (ngSubmit)="createAdmin(createAdminForm.value)">
 					<div class="form-group" [ngClass]="{'has-error':!createAdminForm.controls['user_name'].valid && createAdminForm.controls['user_name'].touched}">
 						<label for="username">User Name</label>
-						<input type="text" name="user_name" class="form-control" id="username" placeholder="User Name" [formControl]="createAdminForm.controls['user_name']" />
-						<small *ngIf="createAdminForm.controls['user_name'].hasError('required') && createAdminForm.controls['user_name'].touched" class="text-danger">Username Required</small>
+						<input type="text" name="user_name" class="form-control" id="username" placeholder="User Name" [formControl]="createAdminForm.controls['user_name']"
+						/>
+						<small *ngIf="createAdminForm.controls['user_name'].hasError('required') && createAdminForm.controls['user_name'].touched"
+							class="text-danger">Username Required</small>
 					</div>
 					<div class="form-group text-center">
 						<button type="submit" class="btn btn-default" [disabled]="!createAdminForm.valid">Create</button>
@@ -39,46 +41,48 @@
 		</div>
 	</div>
 
-<!-- Reset Password alert modal -->
-<div bsModal #resetPasswordModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="resetPasswordModal" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" aria-label="Close" (click)="closeResetPasswordModal()">
+	<!-- Reset Password alert modal -->
+	<div bsModal #resetPasswordModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="resetPasswordModal"
+		aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" aria-label="Close" (click)="closeResetPasswordModal()">
           <span aria-hidden="true">&times;</span>
         </button>
-        <h4 class="modal-title">Reset Password</h4>
-      </div>
-      <div class="modal-body">
-       <p>Are you sure. Do you want to reset password this admin?</p>
-      </div>
-			<div class="modal-footer">
-        <button type="button" class="btn btn-default" (click)="closeResetPasswordModal()">Close</button>
-        <button type="button" class="btn btn-danger" (click)="resetPassword()">Reset</button>
-      </div>
-    </div>
-  </div>
-</div>	
-	
-<!-- Delete Admin alert modal -->
-<div bsModal #deleteAdminModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="deleteAdminModal" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" aria-label="Close" (click)="closeDeleteAdminModal()">
+					<h4 class="modal-title">Reset Password</h4>
+				</div>
+				<div class="modal-body">
+					<p>Are you sure. Do you want to reset password this admin?</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" (click)="closeResetPasswordModal()">Close</button>
+					<button type="button" class="btn btn-danger" (click)="resetPassword()">Reset</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Delete Admin alert modal -->
+	<div bsModal #deleteAdminModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="deleteAdminModal"
+		aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" aria-label="Close" (click)="closeDeleteAdminModal()">
           <span aria-hidden="true">&times;</span>
         </button>
-        <h4 class="modal-title">Delete Admin</h4>
-      </div>
-      <div class="modal-body">
-       <p>Are you sure. Do you want to delete this admin?</p>
-      </div>
-			<div class="modal-footer">
-        <button type="button" class="btn btn-default" (click)="closeDeleteAdminModal()">Close</button>
-        <button type="button" class="btn btn-danger" (click)="deleteAdmin()">Delete</button>
-      </div>
-    </div>
-  </div>
-</div>
+					<h4 class="modal-title">Delete Admin</h4>
+				</div>
+				<div class="modal-body">
+					<p>Are you sure. Do you want to delete this admin?</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" (click)="closeDeleteAdminModal()">Close</button>
+					<button type="button" class="btn btn-danger" (click)="deleteAdmin()">Delete</button>
+				</div>
+			</div>
+		</div>
+	</div>
 
 </div>

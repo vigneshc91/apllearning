@@ -19,11 +19,17 @@ var ChangePasswordComponent = (function () {
         this.changePasswordForm = fb.group({
             'old_password': [null, forms_1.Validators.required],
             'new_password': [null, forms_1.Validators.required],
-            'confirm_new_password': [null, forms_1.Validators.required]
+            'confirm_new_password': [null, [forms_1.Validators.required, this.passwordMatch]]
         });
     }
-    ChangePasswordComponent.prototype.passwordMatch = function (field1, field2) {
-        return field1 == field2 ? null : { passwordMatch: false };
+    ChangePasswordComponent.prototype.passwordMatch = function (control) {
+        var paswd = control.root.get('new_password');
+        if (paswd && control.value != paswd.value) {
+            return {
+                passwordMatch: false
+            };
+        }
+        return null;
     };
     ChangePasswordComponent.prototype.changePassword = function (value) {
         var _this = this;

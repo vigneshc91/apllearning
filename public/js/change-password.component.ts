@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, FormControl, Validators, AbstractControl } from '@angular/forms';
 import { Observable } from 'rxjs/Rx';
 
 import { ServiceResponse } from './model/service-response.model';
@@ -26,12 +26,18 @@ export class ChangePasswordComponent {
         this.changePasswordForm = fb.group({
             'old_password': [null, Validators.required],
             'new_password': [null, Validators.required],
-            'confirm_new_password': [null, Validators.required] 
+            'confirm_new_password': [null, [Validators.required, this.passwordMatch]] 
         });
     }
 
-    passwordMatch(field1: FormControl, field2: FormControl){
-        return field1 == field2 ? null : {passwordMatch: false};
+    passwordMatch(control: AbstractControl){
+        let paswd = control.root.get('new_password');
+        if(paswd && control.value != paswd.value){
+         return {
+             passwordMatch: false
+         };   
+        }
+        return null;
     }
 
     changePassword(value:ChangePasswordModel){
