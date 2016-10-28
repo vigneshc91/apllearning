@@ -183,4 +183,34 @@ class TeacherController extends Controller
             return json_encode($response);
         }
     }
+
+    public function dashboard(){
+        try {
+
+            return view('teacher.dashboard');
+
+        } catch(Exception $e){
+            return $e;
+        }
+    }
+
+    public function student(){
+        try {
+
+            return view('teacher.student');
+
+        } catch(Exception $e){
+            return $e;
+        }
+    }
+
+    public function subject(){
+        try {
+
+            return view('teacher.subject');
+
+        } catch(Exception $e){
+            return $e;
+        }
+    }
 }

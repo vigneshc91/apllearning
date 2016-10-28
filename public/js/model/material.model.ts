@@ -1,9 +1,12 @@
-export class GradeModel {
+export class MaterialModel {
     
     id?: number;
+    material_id?: number;
     grade_id?: number;
-    grade?: number;
-    section?: string;
+    subject_id?: number;
+    title?: string;
+    url?: File;
+    description?: string;
     created_at?: string;
     updated_at?: string;
     start?: number;

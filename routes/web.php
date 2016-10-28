@@ -81,4 +81,10 @@ Route::get('admin/student', 'AdminController@student');
 
 Route::get('admin/grade', 'AdminController@grade');
 
-Route::get('admin/student', 'AdminController@student');
+Route::get('admin/subject', 'AdminController@subject');
+
+Route::get('teacher/dashboard', 'TeacherController@dashboard');
+
+Route::get('teacher/student', 'TeacherController@student');
+
+Route::get('teacher/subject', 'TeacherController@subject');

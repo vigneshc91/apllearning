@@ -29,6 +29,7 @@ export class GradeComponent implements OnInit {
     gradeRange:number[] = AppConstants.GRADE_RANGE;
     sectionRange:string[] = AppConstants.SECTION_RANGE;
     selectedGrade:number|string = '';
+    selectedFilterGrade:number|string = '';
     selectedSection:string = '';
     isEditGrade:boolean = false;
 
@@ -44,11 +45,19 @@ export class GradeComponent implements OnInit {
         this.getGrades();
     }
 
+    filterGrades(){
+        this.grades = [];
+        this.getGrades();
+    }
+
     getGrades(load?:boolean){
         let grade: GradeModel = {};
         if(load){
             grade.start = this.grades.length;
             grade.size = AppConstants.PAGINATION_SIZE;
+        }
+        if(this.selectedFilterGrade){
+            grade.grade = <number>this.selectedFilterGrade;
         }
         let response:Observable<ServiceResponse>;
 

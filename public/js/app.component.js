@@ -31,6 +31,18 @@ var AppComponent = (function () {
                 else if (location.pathname.match('admin/grade') != null) {
                     return '<nav-header></nav-header><grade></grade>';
                 }
+                else if (location.pathname.match('admin/subject') != null) {
+                    return '<nav-header></nav-header><subject></subject>';
+                }
+                else if (location.pathname.match('teacher/dashboard') != null) {
+                    return '<nav-header></nav-header><material></material>';
+                }
+                else if (location.pathname.match('teacher/student') != null) {
+                    return '<nav-header></nav-header><student></student>';
+                }
+                else if (location.pathname.match('teacher/subject') != null) {
+                    return '<nav-header></nav-header><subject></subject>';
+                }
                 else {
                     return '<h1>Welcome</h1><login-section></login-section>';
                 }

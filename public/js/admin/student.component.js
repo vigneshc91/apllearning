@@ -23,6 +23,7 @@ var StudentComponent = (function () {
         this.userSuccessMessage = false;
         this.userFailureMessage = false;
         this.selectedGrade = '';
+        this.selectedFilterGrade = '';
         this.isEditStudent = false;
         this.users = [];
         this.studentForm = fb.group({
@@ -34,6 +35,10 @@ var StudentComponent = (function () {
         this.getUsers();
         this.getGrades();
     };
+    StudentComponent.prototype.filterUsers = function () {
+        this.users = [];
+        this.getUsers(false);
+    };
     StudentComponent.prototype.getUsers = function (load) {
         var _this = this;
         var user = {
@@ -42,6 +47,9 @@ var StudentComponent = (function () {
         if (load) {
             user.start = this.users.length;
             user.size = app_constants_1.AppConstants.PAGINATION_SIZE;
+        }
+        if (this.selectedFilterGrade) {
+            user.grade_id = this.selectedFilterGrade;
         }
         var response;
         response = this.userService.getUsers(user);

@@ -41,10 +41,11 @@ export class NavHeaderComponent implements OnInit {
                             break;
                         case AppConstants.USER_TYPE.Admin:
                             this.userType= "Admin";
-                            this.userDashboard = "apllearning/admin/dashboard";
+                            this.userDashboard = "/apllearning/admin/dashboard";
                             break;
                         case AppConstants.USER_TYPE.Teacher:
                             this.userType = "Teacher";
+                            this.userDashboard = "/apllearning/teacher/dashboard";
                             break;
                         case AppConstants.USER_TYPE.Student:
                             this.userType = "Student";

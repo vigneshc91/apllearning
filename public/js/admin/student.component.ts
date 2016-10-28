@@ -30,7 +30,9 @@ export class StudentComponent implements OnInit {
     @ViewChild('resetPasswordModal') public resetPasswordModal:ModalDirective;
     userModal:UserModel;
     selectedGrade:number|string = '';
+    selectedFilterGrade:number|string = '';
     isEditStudent:boolean = false;
+
 
     constructor(fb: FormBuilder, private userService: UserService, private gradeService: GradeService){
         this.users = [];
@@ -45,6 +47,11 @@ export class StudentComponent implements OnInit {
         this.getGrades();
     }
 
+    filterUsers(){
+        this.users = [];
+        this.getUsers(false);
+    }
+
     getUsers(load?:boolean){
         let user: UserModel = {
             user_type: AppConstants.USER_TYPE.Student
@@ -53,6 +60,10 @@ export class StudentComponent implements OnInit {
             user.start = this.users.length;
             user.size = AppConstants.PAGINATION_SIZE;
         }
+        if(this.selectedFilterGrade){
+            user.grade_id = <number>this.selectedFilterGrade;
+        }
+        
         let response:Observable<ServiceResponse>;
 
         response = this.userService.getUsers(user);

@@ -23,6 +23,7 @@ var GradeComponent = (function () {
         this.gradeRange = app_constants_1.AppConstants.GRADE_RANGE;
         this.sectionRange = app_constants_1.AppConstants.SECTION_RANGE;
         this.selectedGrade = '';
+        this.selectedFilterGrade = '';
         this.selectedSection = '';
         this.isEditGrade = false;
         this.grades = [];
@@ -34,12 +35,19 @@ var GradeComponent = (function () {
     GradeComponent.prototype.ngOnInit = function () {
         this.getGrades();
     };
+    GradeComponent.prototype.filterGrades = function () {
+        this.grades = [];
+        this.getGrades();
+    };
     GradeComponent.prototype.getGrades = function (load) {
         var _this = this;
         var grade = {};
         if (load) {
             grade.start = this.grades.length;
             grade.size = app_constants_1.AppConstants.PAGINATION_SIZE;
+        }
+        if (this.selectedFilterGrade) {
+            grade.grade = this.selectedFilterGrade;
         }
         var response;
         response = this.gradeService.getGrades(grade);

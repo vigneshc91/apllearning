@@ -1,9 +1,9 @@
-export class GradeModel {
-    
+export class SubjectModel {
+
     id?: number;
-    grade_id?: number;
+    subject_id?: number;
     grade?: number;
-    section?: string;
+    name?: string;
     created_at?: string;
     updated_at?: string;
     start?: number;

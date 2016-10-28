@@ -33,10 +33,11 @@ var NavHeaderComponent = (function () {
                         break;
                     case app_constants_1.AppConstants.USER_TYPE.Admin:
                         _this.userType = "Admin";
-                        _this.userDashboard = "apllearning/admin/dashboard";
+                        _this.userDashboard = "/apllearning/admin/dashboard";
                         break;
                     case app_constants_1.AppConstants.USER_TYPE.Teacher:
                         _this.userType = "Teacher";
+                        _this.userDashboard = "/apllearning/teacher/dashboard";
                         break;
                     case app_constants_1.AppConstants.USER_TYPE.Student:
                         _this.userType = "Student";

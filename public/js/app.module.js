@@ -24,13 +24,16 @@ var dashboard_component_1 = require('./superAdmin/dashboard.component');
 var admin_dashboard_component_1 = require('./admin/admin-dashboard.component');
 var student_component_1 = require('./admin/student.component');
 var grade_component_1 = require('./admin/grade.component');
+var subject_component_1 = require('./admin/subject.component');
+// Teacher components
+var teacher_dashboard_component_1 = require('./teacher/teacher-dashboard.component');
 var AppModule = (function () {
     function AppModule() {
     }
     AppModule = __decorate([
         core_1.NgModule({
             imports: [platform_browser_1.BrowserModule, forms_1.FormsModule, forms_1.ReactiveFormsModule, http_1.HttpModule, ng2_bootstrap_1.ModalModule],
-            declarations: [app_component_1.AppComponent, login_component_1.LoginComponent, nav_header_component_1.NavHeaderComponent, change_password_component_1.ChangePasswordComponent, dashboard_component_1.DashboardComponent, admin_dashboard_component_1.AdminDashboardComponent, grade_component_1.GradeComponent, student_component_1.StudentComponent],
+            declarations: [app_component_1.AppComponent, login_component_1.LoginComponent, nav_header_component_1.NavHeaderComponent, change_password_component_1.ChangePasswordComponent, dashboard_component_1.DashboardComponent, admin_dashboard_component_1.AdminDashboardComponent, grade_component_1.GradeComponent, student_component_1.StudentComponent, subject_component_1.SubjectComponent, teacher_dashboard_component_1.TeacherDashboardComponent],
             bootstrap: [app_component_1.AppComponent]
         }), 
         __metadata('design:paramtypes', [])
