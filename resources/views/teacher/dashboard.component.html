@@ -6,11 +6,15 @@
 		<div class="col-md-offset-2 col-md-4">
 			<div class="input-group input-group-sm">
 				<span class="input-group-addon">Filter by</span>
-				<select name="grade_id" class="form-control" [(ngModel)]="selectedFilterGrade">
+				<select name="grade_id" class="form-control" [(ngModel)]="selectedFilterGrade" (change)="onFilterGradeChange($event.target)">
 					<option value="">All Grade</option>
-					<option *ngFor="let grade of grades" value="{{ grade }}">Grade - {{ grade.grade }} - Section - {{ grade.section }}</option>
+					<option *ngFor="let grade of grades" attr.data-grade="{{ grade.grade }}" value="{{ grade.id }}">Grade - {{ grade.grade }} - Section - {{ grade.section }}</option>
 				</select>
-				<span class="input-group-btn">
+				 <select name="subject_id" class="form-control" [(ngModel)]="selectedFilterSubject">
+					<option value="">All Subject</option>
+					<option *ngFor="let subject of gradeFilterSubjects" value="{{ subject.id }}">{{ subject.name }}</option>
+				</select>
+				<span class="input-group-addon input-group-btn">
 					<button class="btn btn-default" type="button" (click)="filterMaterials()">Filter</button>
 				</span>
 			</div>
@@ -22,7 +26,7 @@
 		<table class="table table-hover">
 			<tr *ngFor="let material of materials; let i = index">
 				<td>{{ material.title }}</td>
-                <td><a class="btn btn-default" href="{{ material.url }}" target="_blank" role="button">View File</a></td>
+                <td><a class="btn btn-default" href="{{ materialUrl + material.url }}" target="_blank" role="button"><span class="glyphicon glyphicon-tasks"></span> View File</a></td>
 				<td><button type="button" class="btn btn-default" (click)="editMaterial(material)"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Edit</button></td>
 				<td><button type="button" class="btn btn-default" (click)="showDeleteConfirm(i, material.id)"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete</button></td>
 			</tr>
@@ -36,19 +40,19 @@
 			<button type="button" class="btn btn-danger" (click)="getGrades(1)">Load More</button>
 		</div>
 	</div>
-	<div class="col-md-offset-1 col-md-4 col-sm-offset-1 col-sm-4 col-xs-12">
+	<div class="col-md-offset-1 col-md-5 col-sm-offset-1 col-sm-5 col-xs-12">
 		<div class="panel panel-default">
 			<div class="panel-body">
 				<h2 *ngIf="!isEditMaterial" class="text-center">Create Material</h2>
 				<h2 *ngIf="isEditMaterial" class="text-center">Edit Material</h2>
 				<div *ngIf="materialCreatedSuccessMessage" class="alert alert-success" role="alert">{{ message }}</div>
 				<div *ngIf="materialCreatedFailureMessage" class="alert alert-danger" role="alert">{{ message }}</div>
-				<form [formGroup]="materialForm" (ngSubmit)="createMaterial(materialForm.value)">
+				<form [formGroup]="materialForm" (ngSubmit)="createMaterial(materialForm.value)" enctype="multipart/form-data">
 					<div class="form-group" [ngClass]="{'has-error':!materialForm.controls['grade_id'].valid && materialForm.controls['grade_id'].touched}">
 						<label for="grade">Grade</label>
-                        <select name="grade" class="form-control" id="grade" [(ngModel)]="selectedGrade" [formControl]="materialForm.controls['grade_id']">
+                        <select name="grade" class="form-control" id="grade" [(ngModel)]="selectedGrade" (change)="onGradeChange($event.target)" [formControl]="materialForm.controls['grade_id']">
                             <option value="">Select Grade</option>
-                            <option *ngFor="let grade of grades" value="{{ grade.id }}">Grade - {{ grade.grade }} - Section - {{ grade.section }}</option>
+                            <option *ngFor="let grade of grades" attr.data-grade="{{ grade.grade }}" value="{{ grade.id }}">Grade - {{ grade.grade }} - Section - {{ grade.section }}</option>
                         </select>
 						<small *ngIf="materialForm.controls['grade_id'].hasError('required') && materialForm.controls['grade_id'].touched" class="text-danger">Grade Required</small>
 					</div>
@@ -56,7 +60,7 @@
 						<label for="subject">Subject</label>
 						 <select name="subject" class="form-control" id="subject" [(ngModel)]="selectedSubject" [formControl]="materialForm.controls['subject_id']">
                             <option value="">Select Subject</option>
-                            <option *ngFor="let subject of subjects" value="{{ subject.id }}">{{ subject.name }}</option>
+                            <option *ngFor="let subject of gradeSubjects" value="{{ subject.id }}">{{ subject.name }}</option>
                         </select>
 						<small *ngIf="materialForm.controls['subject_id'].hasError('required') && materialForm.controls['subject_id'].touched" class="text-danger">Subject Required</small>
 					</div>
@@ -65,10 +69,11 @@
                         <input type="text" name="title" class="form-control" id="title" placeholder="Title" [formControl]="materialForm.controls['title']" />
 						<small *ngIf="materialForm.controls['title'].hasError('required') && materialForm.controls['title'].touched" class="text-danger">Title Required</small>
 					</div>
-                    <div class="form-group" [ngClass]="{'has-error':!materialForm.controls['url'].valid && materialForm.controls['url'].touched}">
+                    <div class="form-group" [ngClass]="{'has-error':!isEditMaterial && !isFileExist}">
 						<label for="url">File</label>
-                        <input type="file" name="url" class="form-control" id="url" [formControl]="materialForm.controls['url']" />
-						<small *ngIf="!isEditMaterial && materialForm.controls['url'].hasError('required') && materialForm.controls['url'].touched" class="text-danger">File Required</small>
+                        <input type="file" name="url" class="form-control" id="url" [formControl]="materialForm.controls['url']" (change)="onFileChange($event.target)" />
+						<a *ngIf="isEditMaterial" [attr.href]="viewFileUrl" target="_blank" class="pull-right">View File</a>
+						<small *ngIf="!isEditMaterial && !isFileExist" class="text-danger">File Required</small>
 					</div>
                     <div class="form-group">
 						<label for="description">Description</label>

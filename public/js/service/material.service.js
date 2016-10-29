@@ -28,12 +28,47 @@ var MaterialService = (function () {
             .catch(function (error) { return Rx_1.Observable.throw(error.json().error || "Server error"); });
     };
     MaterialService.prototype.createMaterial = function (data) {
-        var headers = new http_1.Headers({ 'Content-type': 'application/json' });
+        var headers = new http_1.Headers({ 'Content-type': 'multipart/form-data' });
         var options = new http_1.RequestOptions({ headers: headers });
-        var url = data.grade_id == null ? this.createMaterialUrl : this.editMaterialUrl;
-        return this.http.post(url, data, options)
-            .map(function (res) { return res.json(); })
-            .catch(function (error) { return Rx_1.Observable.throw(error.json().error || "Server error"); });
+        var url = data.material_id == null ? this.createMaterialUrl : this.editMaterialUrl;
+        var fd = new FormData();
+        if (data.material_id) {
+            fd.append('material_id', data.material_id);
+        }
+        if (data.grade_id) {
+            fd.append('grade_id', data.grade_id);
+        }
+        if (data.subject_id) {
+            fd.append('subject_id', data.subject_id);
+        }
+        if (data.title) {
+            fd.append('title', data.title);
+        }
+        if (data.url) {
+            fd.append('url', data.url);
+        }
+        if (data.description) {
+            fd.append('description', data.description);
+        }
+        var xhr = new XMLHttpRequest();
+        xhr.open('post', url, true);
+        xhr.send(fd);
+        return Rx_1.Observable.create(function (res) {
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4) {
+                    if (xhr.status == 200) {
+                        res.next(JSON.parse(xhr.response));
+                    }
+                    else {
+                        res.error(xhr.response);
+                    }
+                }
+            };
+        });
+        /*return this.http.post(url, fd, options)
+                        .map((res:Response) => res.json())
+                        .catch((error:any) => Observable.throw(error.json().error || "Server error" ));
+        */
     };
     MaterialService.prototype.deleteMaterial = function (data) {
         var headers = new http_1.Headers({ 'Content-type': 'application/json' });

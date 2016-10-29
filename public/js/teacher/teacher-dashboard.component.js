@@ -12,14 +12,19 @@ var core_1 = require('@angular/core');
 var forms_1 = require('@angular/forms');
 var ng2_bootstrap_1 = require('ng2-bootstrap/ng2-bootstrap');
 var app_constants_1 = require('../helper/app.constants');
+var material_model_1 = require('../model/material.model');
+var user_service_1 = require('../service/user.service');
 var grade_service_1 = require('../service/grade.service');
 var subject_service_1 = require('../service/subject.service');
 var material_service_1 = require('../service/material.service');
 var TeacherDashboardComponent = (function () {
-    function TeacherDashboardComponent(fb, gradeService, subjectService, materialService) {
+    function TeacherDashboardComponent(fb, userService, gradeService, subjectService, materialService) {
+        this.userService = userService;
         this.gradeService = gradeService;
         this.subjectService = subjectService;
         this.materialService = materialService;
+        this.gradeSubjects = [];
+        this.gradeFilterSubjects = [];
         this.materialCreatedSuccessMessage = false;
         this.materialCreatedFailureMessage = false;
         this.materialSuccessMessage = false;
@@ -27,20 +32,32 @@ var TeacherDashboardComponent = (function () {
         this.selectedGrade = '';
         this.selectedSubject = '';
         this.selectedFilterGrade = '';
+        this.selectedFilterSubject = '';
         this.isEditMaterial = false;
+        this.isFileExist = true;
+        this.viewFileUrl = "";
         this.materials = [];
+        this.materialUrl = app_constants_1.AppConstants.MaterialUrl;
         this.materialForm = fb.group({
             "grade_id": [null, forms_1.Validators.required],
             "subject_id": [null, forms_1.Validators.required],
             "title": [null, forms_1.Validators.required],
-            "url": [null, forms_1.Validators.required],
+            "url": [null],
             "description": [null]
         });
     }
     TeacherDashboardComponent.prototype.ngOnInit = function () {
-        this.getMaterials();
-        this.getGrades();
-        this.getSubjects();
+        var _this = this;
+        var response;
+        response = this.userService.getLoggedInUser();
+        response.subscribe(function (data) {
+            if (data.status) {
+                _this.currentUser = data.result;
+                _this.getMaterials();
+                _this.getGrades();
+                _this.getSubjects();
+            }
+        });
     };
     TeacherDashboardComponent.prototype.filterMaterials = function () {
         this.materials = [];
@@ -48,10 +65,17 @@ var TeacherDashboardComponent = (function () {
     };
     TeacherDashboardComponent.prototype.getMaterials = function (load) {
         var _this = this;
-        var material;
+        var material = new material_model_1.MaterialModel();
+        material.user_id = this.currentUser.user_id;
         if (load) {
             material.start = this.materials.length;
             material.size = app_constants_1.AppConstants.PAGINATION_SIZE;
+        }
+        if (this.selectedFilterGrade) {
+            material.grade_id = this.selectedFilterGrade;
+        }
+        if (this.selectedFilterSubject) {
+            material.subject_id = this.selectedFilterSubject;
         }
         var response;
         response = this.materialService.getMaterials(material);
@@ -107,12 +131,33 @@ var TeacherDashboardComponent = (function () {
             console.log(err);
         });
     };
+    TeacherDashboardComponent.prototype.onGradeChange = function (element) {
+        var grade = element.selectedOptions[0].dataset['grade'];
+        this.gradeSubjects = this.subjects.filter(function (item) { return item.grade == grade; });
+    };
+    TeacherDashboardComponent.prototype.onFilterGradeChange = function (element) {
+        var grade = element.selectedOptions[0].dataset['grade'];
+        this.gradeFilterSubjects = this.subjects.filter(function (item) { return item.grade == grade; });
+    };
+    TeacherDashboardComponent.prototype.onFileChange = function (element) {
+        var file = element.files;
+        this.isFileExist = file.length ? true : false;
+    };
     TeacherDashboardComponent.prototype.createMaterial = function (value) {
         var _this = this;
         var response;
         if (this.materialForm.valid) {
             if (this.isEditMaterial) {
                 value.material_id = this.materialModel.material_id;
+            }
+            var file = document.getElementById('url');
+            if (file && file.files.length) {
+                this.isFileExist = true;
+                value.url = file.files[0];
+            }
+            if (!this.isEditMaterial && !file.files.length) {
+                this.isFileExist = false;
+                return;
             }
             response = this.materialService.createMaterial(value);
             response.subscribe(function (data) {
@@ -137,6 +182,7 @@ var TeacherDashboardComponent = (function () {
                 }
                 if (_this.isEditMaterial) {
                     _this.materialModel = {};
+                    _this.viewFileUrl = '';
                     _this.isEditMaterial = false;
                 }
             }, function (err) {
@@ -187,20 +233,24 @@ var TeacherDashboardComponent = (function () {
             material_id: material.id
         };
         this.isEditMaterial = true;
+        var description = material.description != 'null' ? material.description : '';
         this.materialForm.setValue({
             'grade_id': material.grade_id,
             'subject_id': material.subject_id,
             'title': material.title,
             'url': '',
-            'description': material.description
+            'description': description
         });
+        this.onGradeChange(document.getElementById('grade'));
+        this.viewFileUrl = app_constants_1.AppConstants.MaterialUrl + material.url;
     };
-    TeacherDashboardComponent.prototype.cancelMaterialEdit = function () {
+    TeacherDashboardComponent.prototype.cancelEditMaterial = function () {
         this.materialModel = {};
         this.isEditMaterial = false;
         this.materialForm.reset();
         this.selectedGrade = '';
         this.selectedSubject = '';
+        this.viewFileUrl = '';
     };
     __decorate([
         core_1.ViewChild('deleteMaterialModal'), 
@@ -210,9 +260,9 @@ var TeacherDashboardComponent = (function () {
         core_1.Component({
             selector: 'material',
             templateUrl: '/apllearning/resources/views/teacher/dashboard.component.html',
-            providers: [grade_service_1.GradeService, subject_service_1.SubjectService, material_service_1.MaterialService]
+            providers: [user_service_1.UserService, grade_service_1.GradeService, subject_service_1.SubjectService, material_service_1.MaterialService]
         }), 
-        __metadata('design:paramtypes', [forms_1.FormBuilder, grade_service_1.GradeService, subject_service_1.SubjectService, material_service_1.MaterialService])
+        __metadata('design:paramtypes', [forms_1.FormBuilder, user_service_1.UserService, grade_service_1.GradeService, subject_service_1.SubjectService, material_service_1.MaterialService])
     ], TeacherDashboardComponent);
     return TeacherDashboardComponent;
 }());

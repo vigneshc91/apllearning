@@ -9,6 +9,13 @@ var AppConstants = (function () {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(AppConstants, "MaterialUrl", {
+        get: function () {
+            return "http://" + location.host + "/apllearning/storage/app/public/";
+        },
+        enumerable: true,
+        configurable: true
+    });
     AppConstants.USER_TYPE = {
         "SuperAdmin": 1,
         "Admin": 2,

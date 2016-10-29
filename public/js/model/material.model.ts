@@ -4,6 +4,7 @@ export class MaterialModel {
     material_id?: number;
     grade_id?: number;
     subject_id?: number;
+    user_id?: number;
     title?: string;
     url?: File;
     description?: string;

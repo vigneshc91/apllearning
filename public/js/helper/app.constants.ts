@@ -4,6 +4,10 @@ export class AppConstants {
         return "http://" + location.host + "/apllearning/";
     }
 
+    static get MaterialUrl():string {
+        return "http://" + location.host + "/apllearning/storage/app/public/";
+    }
+
     public static USER_TYPE = {
         "SuperAdmin": 1,
         "Admin": 2,
