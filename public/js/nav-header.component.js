@@ -41,6 +41,7 @@ var NavHeaderComponent = (function () {
                         break;
                     case app_constants_1.AppConstants.USER_TYPE.Student:
                         _this.userType = "Student";
+                        _this.userDashboard = "/apllearning/student/dashboard";
                         break;
                 }
             }

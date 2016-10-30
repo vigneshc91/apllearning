@@ -49,6 +49,7 @@ export class NavHeaderComponent implements OnInit {
                             break;
                         case AppConstants.USER_TYPE.Student:
                             this.userType = "Student";
+                            this.userDashboard = "/apllearning/student/dashboard";
                             break;
                     }
                 } else {
