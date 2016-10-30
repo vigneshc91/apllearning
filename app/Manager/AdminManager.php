@@ -304,7 +304,10 @@ class AdminManager {
                 array_push($condition, ['user_type', $input['user_type']]);
             }
 
-            $user = User::where($condition)->skip($start)->take($size)->get();
+            $user = User::where($condition)
+                        ->leftJoin('grade', 'grade.id', '=', 'users.grade_id')
+                        ->select('users.id', 'users.user_name', 'users.user_type', 'users.grade_id', 'users.created_at', 'users.updated_at', 'grade.grade', 'grade.section')
+                        ->skip($start)->take($size)->get();
 
             return $user;
             
