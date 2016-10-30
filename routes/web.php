@@ -41,6 +41,8 @@ Route::post('admin/getSubjectById', 'AdminController@getSubjectById');
 
 Route::post('admin/getMaterialById', 'AdminController@getMaterialById');
 
+Route::post('admin/searchUser', 'AdminController@searchUser');
+
 Route::post('admin/createGrade', 'AdminController@createGrade');
 
 Route::post('admin/editGrade', 'AdminController@editGrade');
@@ -88,3 +90,5 @@ Route::get('teacher/dashboard', 'TeacherController@dashboard');
 Route::get('teacher/student', 'TeacherController@student');
 
 Route::get('teacher/subject', 'TeacherController@subject');
+
+Route::get('student/dashboard', 'StudentController@dashboard');

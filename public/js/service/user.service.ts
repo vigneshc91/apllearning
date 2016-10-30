@@ -18,6 +18,8 @@ export class UserService {
     private changePasswordUrl = AppConstants.AppUrl + "user/changePassword";
     private getLoggedInUserUrl = AppConstants.AppUrl + "user/getLoggedInUser";
     private editStudentUrl = AppConstants.AppUrl + "admin/editStudent";
+    private getUserByIdUrl = AppConstants.AppUrl + "admin/getUserById";
+    private searchUserUrl = AppConstants.AppUrl + "admin/searchUser";
     
     constructor(private http: Http){
 
@@ -27,7 +29,9 @@ export class UserService {
         let headers = new Headers({ 'Content-type': 'application/json' });
         let options = new RequestOptions({ headers });
         
-        return this.http.post(this.getUsersUrl, data, options)
+        let url = data.user_name == null ? this.getUsersUrl : this.searchUserUrl;
+
+        return this.http.post(url, data, options)
                         .map((res:Response) => res.json())
                         .catch((error:any) => Observable.throw(error.json().error || "Server error" ));
     }
@@ -74,6 +78,15 @@ export class UserService {
         let options = new RequestOptions({ headers });
         
         return this.http.post(this.getLoggedInUserUrl, '', options)
+                        .map((res:Response) => res.json())
+                        .catch((error:any) => Observable.throw(error.json().error || "Server error" ));
+    }
+
+    getUserById(data:UserModel): Observable<ServiceResponse> {
+        let headers = new Headers({ 'Content-type': 'application/json' });
+        let options = new RequestOptions({ headers });
+        
+        return this.http.post(this.getUserByIdUrl, data, options)
                         .map((res:Response) => res.json())
                         .catch((error:any) => Observable.throw(error.json().error || "Server error" ));
     }

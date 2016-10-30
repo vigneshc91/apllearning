@@ -16,6 +16,7 @@ import { UserService } from '../service/user.service';
 
 export class AdminDashboardComponent implements OnInit {
     createTeacherForm:FormGroup;
+    searchUserForm:FormGroup;
     users:UserModel[];
     teacherCreatedSuccessMessage:boolean = false;
     teacherCreatedFailureMessage:boolean = false;
@@ -29,8 +30,12 @@ export class AdminDashboardComponent implements OnInit {
 
     constructor(fb: FormBuilder, private userService: UserService){
         this.users = [];
+        this.userModal = new UserModel();
         this.createTeacherForm = fb.group({
             "user_name": [null, Validators.required]
+        });
+        this.searchUserForm = fb.group({
+            'user_name': [null, Validators.required]
         });
     }
 
@@ -38,10 +43,28 @@ export class AdminDashboardComponent implements OnInit {
         this.getUsers();
     }
 
+    searchUsers(user:UserModel){
+        if(this.searchUserForm.valid){
+            this.userModal.user_name = user.user_name;
+            this.users = [];
+            this.getUsers();
+        }
+    }
+
+    resetSearchUsers(){
+        this.searchUserForm.reset();
+        this.users = [];
+        this.userModal = {};
+        this.getUsers();
+    }
+
     getUsers(load?:boolean){
         let user: UserModel = {
             user_type: AppConstants.USER_TYPE.Teacher
         };
+        if(this.userModal.user_name){
+            user.user_name = this.userModal.user_name;
+        }
         if(load){
             user.start = this.users.length;
             user.size = AppConstants.PAGINATION_SIZE;

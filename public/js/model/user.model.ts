@@ -5,6 +5,8 @@ export class UserModel {
     user_name?: string;
     user_type?: number;
     grade_id?: number;
+    grade?: number;
+    section?: string;
     created_at?: string;
     updated_at?: string;
     start?: number;

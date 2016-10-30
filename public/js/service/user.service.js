@@ -22,11 +22,14 @@ var UserService = (function () {
         this.changePasswordUrl = app_constants_1.AppConstants.AppUrl + "user/changePassword";
         this.getLoggedInUserUrl = app_constants_1.AppConstants.AppUrl + "user/getLoggedInUser";
         this.editStudentUrl = app_constants_1.AppConstants.AppUrl + "admin/editStudent";
+        this.getUserByIdUrl = app_constants_1.AppConstants.AppUrl + "admin/getUserById";
+        this.searchUserUrl = app_constants_1.AppConstants.AppUrl + "admin/searchUser";
     }
     UserService.prototype.getUsers = function (data) {
         var headers = new http_1.Headers({ 'Content-type': 'application/json' });
         var options = new http_1.RequestOptions({ headers: headers });
-        return this.http.post(this.getUsersUrl, data, options)
+        var url = data.user_name == null ? this.getUsersUrl : this.searchUserUrl;
+        return this.http.post(url, data, options)
             .map(function (res) { return res.json(); })
             .catch(function (error) { return Rx_1.Observable.throw(error.json().error || "Server error"); });
     };
@@ -63,6 +66,13 @@ var UserService = (function () {
         var headers = new http_1.Headers({ 'Content-type': 'application/json' });
         var options = new http_1.RequestOptions({ headers: headers });
         return this.http.post(this.getLoggedInUserUrl, '', options)
+            .map(function (res) { return res.json(); })
+            .catch(function (error) { return Rx_1.Observable.throw(error.json().error || "Server error"); });
+    };
+    UserService.prototype.getUserById = function (data) {
+        var headers = new http_1.Headers({ 'Content-type': 'application/json' });
+        var options = new http_1.RequestOptions({ headers: headers });
+        return this.http.post(this.getUserByIdUrl, data, options)
             .map(function (res) { return res.json(); })
             .catch(function (error) { return Rx_1.Observable.throw(error.json().error || "Server error"); });
     };

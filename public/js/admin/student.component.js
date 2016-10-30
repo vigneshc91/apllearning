@@ -12,6 +12,7 @@ var core_1 = require('@angular/core');
 var forms_1 = require('@angular/forms');
 var ng2_bootstrap_1 = require('ng2-bootstrap/ng2-bootstrap');
 var app_constants_1 = require('../helper/app.constants');
+var user_model_1 = require('../model/user.model');
 var user_service_1 = require('../service/user.service');
 var grade_service_1 = require('../service/grade.service');
 var StudentComponent = (function () {
@@ -26,9 +27,13 @@ var StudentComponent = (function () {
         this.selectedFilterGrade = '';
         this.isEditStudent = false;
         this.users = [];
+        this.userModal = new user_model_1.UserModel();
         this.studentForm = fb.group({
             "user_name": [null, forms_1.Validators.required],
             "grade_id": [null, forms_1.Validators.required]
+        });
+        this.searchUserForm = fb.group({
+            'user_name': [null, forms_1.Validators.required]
         });
     }
     StudentComponent.prototype.ngOnInit = function () {
@@ -39,11 +44,27 @@ var StudentComponent = (function () {
         this.users = [];
         this.getUsers(false);
     };
+    StudentComponent.prototype.searchUsers = function (user) {
+        if (this.searchUserForm.valid) {
+            this.userModal.user_name = user.user_name;
+            this.users = [];
+            this.getUsers();
+        }
+    };
+    StudentComponent.prototype.resetSearchUsers = function () {
+        this.searchUserForm.reset();
+        this.users = [];
+        this.userModal = {};
+        this.getUsers();
+    };
     StudentComponent.prototype.getUsers = function (load) {
         var _this = this;
         var user = {
             user_type: app_constants_1.AppConstants.USER_TYPE.Student
         };
+        if (this.userModal.user_name) {
+            user.user_name = this.userModal.user_name;
+        }
         if (load) {
             user.start = this.users.length;
             user.size = app_constants_1.AppConstants.PAGINATION_SIZE;

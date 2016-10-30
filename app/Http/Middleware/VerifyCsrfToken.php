@@ -16,6 +16,6 @@ class VerifyCsrfToken extends BaseVerifier
         'admin/createGrade', 'admin/editGrade', 'admin/deleteGrade', 'admin/createSubject', 'admin/editSubject', 'admin/deleteSubject',
         'admin/editStudent', 'admin/getUsersList', 'admin/getGradesList', 'admin/getSubjectsList',
         'teacher/createMaterial', 'teacher/editMaterial', 'teacher/deleteMaterial', 'teacher/getMaterialsList',
-        'admin/getUserById', 'admin/getGradeById', 'admin/getSubjectById', 'admin/getMaterialById'
+        'admin/getUserById', 'admin/getGradeById', 'admin/getSubjectById', 'admin/getMaterialById', 'admin/searchUser'
     ];
 }

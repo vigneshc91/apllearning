@@ -1,0 +1,41 @@
+<div class="row">
+	<div class="row">
+		<div class="col-md-4 col-sm-4 col-xs-12">
+			<h2>Subjects</h2>
+		</div>
+        <div *ngIf="isMaterialView" class="col-md-offset-1 col-md-6 col-sm-offset-1 col-sm-6 col-xs-12">
+             <h2>Materials</h2>
+        </div>
+	</div>
+	<div class="col-md-4 col-sm-4 col-xs-12">
+		
+		<table class="table table-hover table-responsive">
+			<tr *ngFor="let subject of subjects; let i = index" [class.active]="subject == selectedSubject">
+				<td>{{ subject.name }}</td>
+				<td><button type="button" class="btn btn-default" (click)="viewMaterial(subject)"><span class="glyphicon glyphicon-tasks" aria-hidden="true"></span> View Materials</button></td>
+			</tr>
+		</table>
+	</div>
+	<div *ngIf="isMaterialView" class="col-md-offset-1 col-md-6 col-sm-offset-1 col-sm-6 col-xs-12">
+       
+		<table class="table table-hover table-responsive">
+			<tr *ngFor="let material of materials; let i = index">
+				<td>
+                    <p>{{ material.title }}</p>
+                    <small *ngIf="material.description != 'null'" class="text-muted">{{ material.description }}</small>
+                </td>
+                <td class="text-right"><a class="btn btn-default" href="{{ materialUrl + material.url }}" target="_blank" role="button"><span class="glyphicon glyphicon-tasks"></span> View File</a></td>
+			</tr>
+			<tr *ngIf="!hasMoreMaterials">
+				<td colspan="2">
+					<p class="text-center text-uppercase text-muted">Thats All Folks</p>
+				</td>
+			</tr>
+		</table>
+		<div *ngIf="hasMoreMaterials" class="text-center">
+			<button type="button" class="btn btn-danger" (click)="getMaterials(1)">Load More</button>
+		</div>
+	</div>
+
+
+</div>

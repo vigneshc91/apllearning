@@ -18,10 +18,12 @@ import { GradeComponent } from './admin/grade.component';
 import { SubjectComponent } from './admin/subject.component';
 // Teacher components
 import { TeacherDashboardComponent } from './teacher/teacher-dashboard.component';
+// Student components
+import { StudentDashboardComponent } from './student/student-dashboard.component';
 
 @NgModule({
   imports:      [ BrowserModule, FormsModule, ReactiveFormsModule, HttpModule, ModalModule ],
-  declarations: [ AppComponent, LoginComponent, NavHeaderComponent, ChangePasswordComponent, DashboardComponent, AdminDashboardComponent, GradeComponent, StudentComponent, SubjectComponent, TeacherDashboardComponent ],
+  declarations: [ AppComponent, LoginComponent, NavHeaderComponent, ChangePasswordComponent, DashboardComponent, AdminDashboardComponent, GradeComponent, StudentComponent, SubjectComponent, TeacherDashboardComponent, StudentDashboardComponent ],
   bootstrap:    [ AppComponent ]
 })
 

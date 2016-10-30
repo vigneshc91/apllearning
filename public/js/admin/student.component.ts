@@ -18,6 +18,7 @@ import { GradeService } from '../service/grade.service';
 
 export class StudentComponent implements OnInit {
     studentForm:FormGroup;
+    searchUserForm:FormGroup;
     users:UserModel[];
     grades:GradeModel[];
     studentCreatedSuccessMessage:boolean = false;
@@ -36,9 +37,13 @@ export class StudentComponent implements OnInit {
 
     constructor(fb: FormBuilder, private userService: UserService, private gradeService: GradeService){
         this.users = [];
+        this.userModal = new UserModel();
         this.studentForm = fb.group({
             "user_name": [null, Validators.required],
             "grade_id": [null, Validators.required]
+        });
+        this.searchUserForm = fb.group({
+            'user_name': [null, Validators.required]
         });
     }
 
@@ -52,10 +57,28 @@ export class StudentComponent implements OnInit {
         this.getUsers(false);
     }
 
+    searchUsers(user:UserModel){
+        if(this.searchUserForm.valid){
+            this.userModal.user_name = user.user_name;
+            this.users = [];
+            this.getUsers();
+        }
+    }
+
+    resetSearchUsers(){
+        this.searchUserForm.reset();
+        this.users = [];
+        this.userModal = {};
+        this.getUsers();
+    }
+
     getUsers(load?:boolean){
         let user: UserModel = {
             user_type: AppConstants.USER_TYPE.Student
         };
+        if(this.userModal.user_name){
+            user.user_name = this.userModal.user_name;
+        }
         if(load){
             user.start = this.users.length;
             user.size = AppConstants.PAGINATION_SIZE;

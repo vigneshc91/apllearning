@@ -12,6 +12,7 @@ var core_1 = require('@angular/core');
 var forms_1 = require('@angular/forms');
 var ng2_bootstrap_1 = require('ng2-bootstrap/ng2-bootstrap');
 var app_constants_1 = require('../helper/app.constants');
+var user_model_1 = require('../model/user.model');
 var user_service_1 = require('../service/user.service');
 var AdminDashboardComponent = (function () {
     function AdminDashboardComponent(fb, userService) {
@@ -21,11 +22,28 @@ var AdminDashboardComponent = (function () {
         this.userSuccessMessage = false;
         this.userFailureMessage = false;
         this.users = [];
+        this.userModal = new user_model_1.UserModel();
         this.createTeacherForm = fb.group({
             "user_name": [null, forms_1.Validators.required]
         });
+        this.searchUserForm = fb.group({
+            'user_name': [null, forms_1.Validators.required]
+        });
     }
     AdminDashboardComponent.prototype.ngOnInit = function () {
+        this.getUsers();
+    };
+    AdminDashboardComponent.prototype.searchUsers = function (user) {
+        if (this.searchUserForm.valid) {
+            this.userModal.user_name = user.user_name;
+            this.users = [];
+            this.getUsers();
+        }
+    };
+    AdminDashboardComponent.prototype.resetSearchUsers = function () {
+        this.searchUserForm.reset();
+        this.users = [];
+        this.userModal = {};
         this.getUsers();
     };
     AdminDashboardComponent.prototype.getUsers = function (load) {
@@ -33,6 +51,9 @@ var AdminDashboardComponent = (function () {
         var user = {
             user_type: app_constants_1.AppConstants.USER_TYPE.Teacher
         };
+        if (this.userModal.user_name) {
+            user.user_name = this.userModal.user_name;
+        }
         if (load) {
             user.start = this.users.length;
             user.size = app_constants_1.AppConstants.PAGINATION_SIZE;

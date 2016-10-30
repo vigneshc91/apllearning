@@ -83,5 +83,10 @@ class User extends Authenticatable
         'user_id' => 'required',
         'grade_id' => 'required'
     );
+
+     // Search user validation rule
+    public static $searchUserRule = array(
+        'user_name' => 'required'
+    );
     
 }

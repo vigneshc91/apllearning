@@ -174,7 +174,11 @@ class AdminManager {
                 array_push($query, ['grade_id', $gradeId]);
             }
 
-            $result = User::where($query)->skip($start)->take($size)->get();
+            $result = User::where($query)
+                        ->leftJoin('grade', 'grade.id', '=', 'users.grade_id')
+                        ->select('users.id', 'users.user_name', 'users.user_type', 'users.grade_id', 'users.created_at', 'users.updated_at', 'grade.grade', 'grade.section')
+                        ->skip($start)->take($size)->get();
+
             
             return $result;
 
@@ -230,6 +234,12 @@ class AdminManager {
 
             $user = User::find($userId);
 
+            if($user->grade_id != null){
+                $grade = $this->getGradeById(['grade_id' => $user->grade_id]);
+                $user->grade = $grade->grade;
+                $user->section = $grade->section;
+            }
+
             return $user;
 
         } catch(Exception $e){
@@ -274,6 +284,30 @@ class AdminManager {
 
             return $material;
 
+        } catch(Exception $e){
+            throw $e;
+        }
+    }
+
+    public function searchUser($input){
+        try{
+
+            $query = $input['user_name'];
+            $start = $input['start'];
+            $size = $input['size'];
+
+            $condition = array();
+            
+            array_push($condition, ['user_name', 'LIKE', '%'.$query.'%']);
+            
+            if(!empty($input['user_type'])){
+                array_push($condition, ['user_type', $input['user_type']]);
+            }
+
+            $user = User::where($condition)->skip($start)->take($size)->get();
+
+            return $user;
+            
         } catch(Exception $e){
             throw $e;
         }

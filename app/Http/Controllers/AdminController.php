@@ -393,7 +393,7 @@ class AdminController extends Controller
                 $response->status = false;
                 $response->result = ErrorConstants::USER_NOT_LOGGED_IN;
                 return json_encode($response);
-            } elseif ($user->user_type != AppConstants::userType['Admin'] && $user->user_type != AppConstants::userType['Teacher']) {
+            } elseif ($user->user_type == AppConstants::userType['SuperAdmin']) {
                 $response->status = false;
                 $response->result = ErrorConstants::NO_PRIVILEGE;
                 return json_encode($response);
@@ -563,6 +563,45 @@ class AdminController extends Controller
                 $response->result = $result;
                 return json_encode($response);
             }
+
+        } catch(Exception $e){
+            $response->status = false;
+            $response->result = $e;
+            return json_encode($response);
+        }
+    }
+
+    public function searchUser(Request $request){
+        $response = new ServiceResponse();
+        try {
+
+            $user = $this->sessionManager->getLoggedInUser();
+            if($user == null){
+                $response->status = false;
+                $response->result = ErrorConstants::USER_NOT_LOGGED_IN;
+                return json_encode($response);
+            }
+
+            $input = $request->only('user_name', 'user_type', 'start', 'size');
+
+            $searchUserValidation = Validator::make($input, User::$searchUserRule);
+            if(!$searchUserValidation->passes()){
+                $response->status = false;
+                $response->result = ErrorConstants::REQUIRED_FIELDS_EMPTY;
+                return json_encode($response);
+            }
+
+            if(empty($input['start'])){
+                $input['start'] = AppConstants::USERS_START_VALUE;
+            }
+            if(empty($input['size'])){
+                $input['size'] = AppConstants::USERS_SIZE_VALUE;
+            }
+
+            $response->result = $this->adminManager->searchUser($input);
+            $response->status = true;
+            return json_encode($response);
+            
 
         } catch(Exception $e){
             $response->status = false;
