@@ -17,6 +17,12 @@ composer install
 
 It will install all the necessary packages needed by the laravel, after that create a database named apllearning.
 
+Then, we need to configure the database credentials in the app, for that open the .env file in the app root directory, if the .env file is not there then simply create .env file and copy and paste the contents from .env.example file and enter the database name as apllearning and enter the database user name and password and if the app key field is empty simply enter the following command in the command prompt to generate new key
+
+```
+php artisan key:generate
+```
+
 After creating the database, we have to create the tables for that just run the command in the command prompt as
 
 ```
