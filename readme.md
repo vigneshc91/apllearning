@@ -34,5 +34,10 @@ Now both the database and tables are created then we need to create superadmin f
 ```
 php artisan db:seed
 ```
+Now we need to install the npm dependencies for that just run the command in the command prompt as
+
+```
+npm install
+```
 
 Thats all, everything is setup just open the browser and enter http://localhost/apllearning to see the working app. 
