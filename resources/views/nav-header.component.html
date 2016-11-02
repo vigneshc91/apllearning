@@ -9,27 +9,27 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-			<a class="navbar-brand" href="{{ userDashboard }}">APL Learning - {{ userType }}</a>
+			<a class="navbar-brand" routerLink="{{ userDashboard }}">APL Learning - {{ userType }}</a>
 		</div>
 
 		<!-- Collect the nav links, forms, and other content for toggling -->
 		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 			<ul *ngIf="loggedInUser.user_type == 2" class="nav navbar-nav">
-				<li><a href="{{ userDashboard }}">Teacher</a></li>
-				<li><a href="/apllearning/admin/student">Student</a></li>
-				<li><a href="/apllearning/admin/grade">Grade</a></li>
-				<li><a href="/apllearning/admin/subject">Subject</a></li>
+				<li><a routerLink="{{ userDashboard }}">Teacher</a></li>
+				<li><a routerLink="/apllearning/admin/student">Student</a></li>
+				<li><a routerLink="/apllearning/admin/grade">Grade</a></li>
+				<li><a routerLink="/apllearning/admin/subject">Subject</a></li>
 			</ul>
 			<ul *ngIf="loggedInUser.user_type == 3" class="nav navbar-nav">
-				<li><a href="{{ userDashboard }}">Material</a></li>
-				<li><a href="/apllearning/teacher/student">Student</a></li>
-				<li><a href="/apllearning/teacher/subject">Subject</a></li>
+				<li><a routerLink="{{ userDashboard }}">Material</a></li>
+				<li><a routerLink="/apllearning/teacher/student">Student</a></li>
+				<li><a routerLink="/apllearning/teacher/subject">Subject</a></li>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
 				<li class="dropdown">
 					<a href="#" class="dropdown-toggle" id="currentUser" attr.data-userid="{{ loggedInUser.id }}" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ loggedInUser.user_name }} <span class="caret"></span></a>
 					<ul class="dropdown-menu">
-						<li><a href="/apllearning/user/changePassword">Change Password</a></li>
+						<li><a routerLink="/apllearning/user/changePassword">Change Password</a></li>
 						<li role="separator" class="divider"></li>
 						<li><a href="/apllearning/user/logout">Logout</a></li>
 					</ul>

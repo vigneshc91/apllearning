@@ -3,8 +3,10 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { ModalModule } from 'ng2-bootstrap/ng2-bootstrap';
+import { RouterModule } from '@angular/router';
 
 // Common components
+import { AppRoutingModule } from './app-routing.module';
 import { AppComponent }   from './app.component';
 import { LoginComponent } from './login.component';
 import { NavHeaderComponent } from './nav-header.component';
@@ -22,7 +24,7 @@ import { TeacherDashboardComponent } from './teacher/teacher-dashboard.component
 import { StudentDashboardComponent } from './student/student-dashboard.component';
 
 @NgModule({
-  imports:      [ BrowserModule, FormsModule, ReactiveFormsModule, HttpModule, ModalModule ],
+  imports:      [ BrowserModule, FormsModule, ReactiveFormsModule, HttpModule, ModalModule, AppRoutingModule],
   declarations: [ AppComponent, LoginComponent, NavHeaderComponent, ChangePasswordComponent, DashboardComponent, AdminDashboardComponent, GradeComponent, StudentComponent, SubjectComponent, TeacherDashboardComponent, StudentDashboardComponent ],
   bootstrap:    [ AppComponent ]
 })

@@ -9,10 +9,12 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
+var router_1 = require('@angular/router');
 var user_service_1 = require('./service/user.service');
 var app_constants_1 = require('./helper/app.constants');
 var NavHeaderComponent = (function () {
-    function NavHeaderComponent(userService) {
+    function NavHeaderComponent(router, userService) {
+        this.router = router;
         this.userService = userService;
         this.loggedInUser = {};
     }
@@ -46,7 +48,8 @@ var NavHeaderComponent = (function () {
                 }
             }
             else {
-                location.href = "/apllearning";
+                // location.href = "/apllearning";
+                _this.router.navigate(['']);
             }
         }, function (err) {
             console.log(err);
@@ -58,7 +61,7 @@ var NavHeaderComponent = (function () {
             templateUrl: '/apllearning/resources/views/nav-header.component.html',
             providers: [user_service_1.UserService]
         }), 
-        __metadata('design:paramtypes', [user_service_1.UserService])
+        __metadata('design:paramtypes', [router_1.Router, user_service_1.UserService])
     ], NavHeaderComponent);
     return NavHeaderComponent;
 }());

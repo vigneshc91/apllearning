@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
 
 import { ServiceResponse } from './model/service-response.model';
@@ -19,7 +20,7 @@ export class NavHeaderComponent implements OnInit {
     userType:string;
     userDashboard:string;
 
-    constructor(private userService: UserService){
+    constructor(private router: Router, private userService: UserService){
         this.loggedInUser = {};
     }
 
@@ -53,7 +54,8 @@ export class NavHeaderComponent implements OnInit {
                             break;
                     }
                 } else {
-                    location.href = "/apllearning";
+                    // location.href = "/apllearning";
+                    this.router.navigate(['']);
                 }
             },
             err => {

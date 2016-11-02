@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Observable } from 'rxjs/Rx';
 
@@ -20,7 +21,7 @@ export class LoginComponent {
     userLoginFailureMessage:boolean = false;
     message:string;
 
-    constructor(fb: FormBuilder, private loginLogoutService: LoginLogoutService, private userService: UserService){
+    constructor(private router: Router, fb: FormBuilder, private loginLogoutService: LoginLogoutService, private userService: UserService){
         this.getLoggedInUser();
         this.loginForm = fb.group({
             'user_name': [null, Validators.required],
@@ -69,16 +70,20 @@ export class LoginComponent {
     redirectUser(userType:number){
         switch (userType) {
             case AppConstants.USER_TYPE.SuperAdmin:
-                location.href = "superAdmin/dashboard";
+                // location.href = "superAdmin/dashboard";
+                this.router.navigate(['apllearning/superAdmin/dashboard']);
                 break;
             case AppConstants.USER_TYPE.Admin:
-                location.href = "admin/dashboard";
+                // location.href = "admin/dashboard";
+                this.router.navigate(['apllearning/admin/dashboard']);
                 break;
             case AppConstants.USER_TYPE.Teacher:
-                location.href = "teacher/dashboard";
+                // location.href = "teacher/dashboard";
+                this.router.navigate(['apllearning/teacher/dashboard']);
                 break;
             case AppConstants.USER_TYPE.Student:
-                location.href = "student/dashboard";
+                // location.href = "student/dashboard";
+                this.router.navigate(['apllearning/student/dashboard']);
                 break;
         }
     }

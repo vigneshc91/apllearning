@@ -9,9 +9,11 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
-function getComponent() {
-    var result;
-    var component = location.pathname.replace('/apllearning/', '');
+/*
+function getComponent():string{
+    let result:string;
+    let component = location.pathname.replace('/apllearning/', '');
+
     switch (component) {
         case 'superAdmin/dashboard':
             result = '<nav-header></nav-header><super-admin></super-admin>';
@@ -47,15 +49,17 @@ function getComponent() {
             result = '<login-section></login-section>';
             break;
     }
+
     return result;
 }
+*/
 var AppComponent = (function () {
     function AppComponent() {
     }
     AppComponent = __decorate([
         core_1.Component({
             selector: 'apl-learning',
-            template: getComponent()
+            template: '<router-outlet></router-outlet>'
         }), 
         __metadata('design:paramtypes', [])
     ], AppComponent);

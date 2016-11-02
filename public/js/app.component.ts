@@ -3,6 +3,7 @@ import { LoginComponent } from './login.component';
 import { NavHeaderComponent } from './nav-header.component';
 import { DashboardComponent } from './superAdmin/dashboard.component';
 
+/*
 function getComponent():string{
     let result:string;
     let component = location.pathname.replace('/apllearning/', '');
@@ -45,10 +46,11 @@ function getComponent():string{
 
     return result;
 }
+*/
 
 @Component({
   selector: 'apl-learning',
-  template: getComponent()
+  template: '<router-outlet></router-outlet>'
 })
 
 export class AppComponent { }

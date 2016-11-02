@@ -9,12 +9,14 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
+var router_1 = require('@angular/router');
 var forms_1 = require('@angular/forms');
 var login_logout_service_1 = require('./service/login-logout.service');
 var user_service_1 = require('./service/user.service');
 var app_constants_1 = require('./helper/app.constants');
 var LoginComponent = (function () {
-    function LoginComponent(fb, loginLogoutService, userService) {
+    function LoginComponent(router, fb, loginLogoutService, userService) {
+        this.router = router;
         this.loginLogoutService = loginLogoutService;
         this.userService = userService;
         this.userLoginFailureMessage = false;
@@ -60,16 +62,20 @@ var LoginComponent = (function () {
     LoginComponent.prototype.redirectUser = function (userType) {
         switch (userType) {
             case app_constants_1.AppConstants.USER_TYPE.SuperAdmin:
-                location.href = "superAdmin/dashboard";
+                // location.href = "superAdmin/dashboard";
+                this.router.navigate(['apllearning/superAdmin/dashboard']);
                 break;
             case app_constants_1.AppConstants.USER_TYPE.Admin:
-                location.href = "admin/dashboard";
+                // location.href = "admin/dashboard";
+                this.router.navigate(['apllearning/admin/dashboard']);
                 break;
             case app_constants_1.AppConstants.USER_TYPE.Teacher:
-                location.href = "teacher/dashboard";
+                // location.href = "teacher/dashboard";
+                this.router.navigate(['apllearning/teacher/dashboard']);
                 break;
             case app_constants_1.AppConstants.USER_TYPE.Student:
-                location.href = "student/dashboard";
+                // location.href = "student/dashboard";
+                this.router.navigate(['apllearning/student/dashboard']);
                 break;
         }
     };
@@ -93,7 +99,7 @@ var LoginComponent = (function () {
             templateUrl: '/apllearning/resources/views/login.component.html',
             providers: [login_logout_service_1.LoginLogoutService, user_service_1.UserService]
         }), 
-        __metadata('design:paramtypes', [forms_1.FormBuilder, login_logout_service_1.LoginLogoutService, user_service_1.UserService])
+        __metadata('design:paramtypes', [router_1.Router, forms_1.FormBuilder, login_logout_service_1.LoginLogoutService, user_service_1.UserService])
     ], LoginComponent);
     return LoginComponent;
 }());
