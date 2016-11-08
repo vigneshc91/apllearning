@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Helper\AppConstants;
 use App\User;
+use App\Grade;
 use App\Session;
 
 class StudentManager {
@@ -26,6 +27,9 @@ class StudentManager {
                     'last_activity' => time()
                 ]);
                 $result = Auth::user();
+                $grade = Grade::find($result->grade_id);
+                $result->grade = $grade->grade;
+                $result->section = $grade->section;
                 $result->token = $token;
                 return $result;
             } else {

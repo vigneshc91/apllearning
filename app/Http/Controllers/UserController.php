@@ -115,11 +115,13 @@ class UserController extends Controller
         }
     }
 
-    public function getLoggedInUser(){
+    public function getLoggedInUser(Request $request){
         $response = new ServiceResponse(); 
         try {
 
-            $user = $this->sessionManager->getLoggedInUser();
+            $input = $request->only('token');
+
+            $user = $this->sessionManager->getLoggedInUser($input['token']);
             if($user == null){
                 $response->status = false;
                 $response->result = ErrorConstants::USER_NOT_LOGGED_IN;

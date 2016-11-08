@@ -160,7 +160,7 @@ class TeacherController extends Controller
                 $response->status = false;
                 $response->result = ErrorConstants::USER_NOT_LOGGED_IN;
                 return json_encode($response);
-            } elseif ($user->user_type != AppConstants::userType['Teacher'] && $user->user_type != AppConstants::userType['Student']) {
+            } elseif ($user->user_type && $user->user_type != AppConstants::userType['Teacher'] && $user->user_type != AppConstants::userType['Student']) {
                 $response->status = false;
                 $response->result = ErrorConstants::NO_PRIVILEGE;
                 return json_encode($response);
