@@ -69,6 +69,10 @@ Route::post('teacher/deleteMaterial', 'TeacherController@deleteMaterial');
 
 Route::post('teacher/getMaterialsList', 'TeacherController@getMaterialsList');
 
+Route::post('student/login', 'StudentController@login');
+
+Route::post('student/logout', 'StudentController@logout');
+
 // get request
 
 Route::get('superAdmin/dashboard', 'SuperAdminController@dashboard');

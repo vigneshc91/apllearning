@@ -76,14 +76,15 @@ class UserController extends Controller
         $response = new ServiceResponse(); 
         try {
 
-            $user = $this->sessionManager->getLoggedInUser();
+            $input = $request->only('old_password', 'new_password', 'token');
+            
+            $user = $this->sessionManager->getLoggedInUser($input['token']);
             if($user == null){
                 $response->status = false;
                 $response->result = ErrorConstants::USER_NOT_LOGGED_IN;
                 return json_encode($response);
             }
 
-            $input = $request->only('old_password', 'new_password');
 
             $changePasswordValidation = Validator::make($input, User::$userChangePasswordRule);
 
@@ -92,7 +93,9 @@ class UserController extends Controller
                 $response->result = ErrorConstants::REQUIRED_FIELDS_EMPTY;
                 return json_encode($response);
             }
-
+            if(!empty($input['token'])){
+                $user->id = $user->user_id;
+            }
             if($this->userManager->changePassword($user, $input)){
                 $response->status = true;
                 $response->result = SuccessConstants::PASSWORD_CHANGED_SUCCESSFULLY;

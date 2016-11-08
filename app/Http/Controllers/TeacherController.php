@@ -153,7 +153,9 @@ class TeacherController extends Controller
         $response = new ServiceResponse();
         try {
             
-            $user = $this->sessionManager->getLoggedInUser();
+            $input = $request->only('user_id', 'grade_id', 'subject_id', 'start', 'size', 'token');
+            
+            $user = $this->sessionManager->getLoggedInUser($input['token']);
             if($user == null){
                 $response->status = false;
                 $response->result = ErrorConstants::USER_NOT_LOGGED_IN;
@@ -164,7 +166,6 @@ class TeacherController extends Controller
                 return json_encode($response);
             }
 
-            $input = $request->only('user_id', 'grade_id', 'subject_id', 'start', 'size');
 
             if(empty($input['start'])){
                 $input['start'] = AppConstants::MATERIALS_START_VALUE;

@@ -46,6 +46,11 @@ class User extends Authenticatable
         'password' => 'required'
     );
 
+    // User logout validation rule
+    public static $userLogoutRule = array(
+        'token' => 'required'
+    );
+
     // User change password validation rule
     public static $userChangePasswordRule = array(
         'old_password' => 'required',

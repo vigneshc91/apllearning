@@ -6,6 +6,7 @@ class ErrorConstants {
 
     const REQUIRED_FIELDS_EMPTY = "Required Fields Empty";
     const LOGIN_FAILED = "Invalid Credentials, Login Failed";  
+    const LOGOUT_FAILED = "Logout Failed";
     const USER_NOT_LOGGED_IN = "User not logged in";
     const INVALID_OLD_PASSWORD = "Invalid old password";
     const NO_PRIVILEGE = "No Privilege"; 

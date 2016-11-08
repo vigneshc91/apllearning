@@ -388,7 +388,9 @@ class AdminController extends Controller
         $response = new ServiceResponse();
         try{
 
-            $user = $this->sessionManager->getLoggedInUser();
+            $input = $request->only('grade','start', 'size', 'token');
+            
+            $user = $this->sessionManager->getLoggedInUser($input['token']);
             if($user == null){
                 $response->status = false;
                 $response->result = ErrorConstants::USER_NOT_LOGGED_IN;
@@ -399,7 +401,6 @@ class AdminController extends Controller
                 return json_encode($response);
             }
 
-            $input = $request->only('grade','start', 'size');
 
             if(empty($input['start'])){
                 $input['start'] = AppConstants::SUBJECTS_START_VALUE;

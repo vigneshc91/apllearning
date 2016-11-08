@@ -8,7 +8,7 @@ use App\Helper\AppConstants;
 use App\User;
 use App\Session;
 
-class UserManager {
+class StudentManager {
     
     public function login($input){
         try {
@@ -18,7 +18,16 @@ class UserManager {
 
             $result = Auth::Attempt(['user_name' => $userName, 'password' => $password, 'status' => AppConstants::userStatus['Approved']]);
             if($result){
-                return Auth::user()->user_type;
+                $token = md5(rand());
+                Session::create([
+                    'id' => $token,
+                    'user_id' => Auth::user()->id,
+                    'payload' => Auth::user()->user_name,
+                    'last_activity' => time()
+                ]);
+                $result = Auth::user();
+                $result->token = $token;
+                return $result;
             } else {
                 return false;
             }
@@ -28,37 +37,22 @@ class UserManager {
         }
     }
 
-    public function logout(){
+    public function logout($input){
         try{
+            $token = $input['token'];
 
-            return Auth::logout();
+            $session = Session::find($token);
+            if($session){
+                $session->delete();
+                Auth::logout();
+                return true;
+            }
+
+            return false;
 
         } catch(Exception $e) {
             throw $e;
         }
     }
 
-    public function changePassword($loggedInUser, $input){
-        try {
-
-            $oldPassword = $input['old_password'];
-            $newPassword = bcrypt($input['new_password']);
-
-            $userId = $loggedInUser->id;
-
-            $user = User::find($userId);
-
-            if(!Hash::check($oldPassword, $user->password)){
-                return false;
-            } else {
-                $user->password = $newPassword;
-                $user->save();
-                return true;
-            }
-
-
-        } catch(Exception $e){
-            throw $e;
-        }
-    }
 }
