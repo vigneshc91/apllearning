@@ -14,7 +14,7 @@ class CreateSuperAdminSeeder extends Seeder
      */
     public function run()
     {
-        $isSuperAdminExist = User::where('user_type', Appconstants::userType['SuperAdmin'])->count();
+        $isSuperAdminExist = User::where('user_type', AppConstants::userType['SuperAdmin'])->count();
         
         if($isSuperAdminExist == 0){
             User::create([
