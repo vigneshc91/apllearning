@@ -22,6 +22,11 @@
     @yield('top')
     <div class="container">
         @yield('content')
+        <div class="row">
+          <div class="col-md-12">
+            <p class="text-center text-muted">&copy; 2016 <strong><span class="text-info">APL</span></strong>. All rights reserved. Powered by <strong><span class="text-info">Xtreme Programmers</span></strong></p>
+          </div>
+        </div>
     </div>
     <script src="{{ asset('/').('public/js/jquery-3.1.1.min.js') }}"></script>
     <script src="{{ asset('/').('public/js/bootstrap.min.js') }}"></script>
